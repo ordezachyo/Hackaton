@@ -11,7 +11,8 @@ class Subject(): # Object represent a single subject in the experiment
 
         self.name = name
         self.overlap = overlap # does data from the watch overlaps with data from the lab)
-        self.lab_sleep_score = pd.read_csv('watch_data/scoring_cntrl/'+name+'_hypnoWholeFile_revised.txt') # sleep score from the lab experiment
+        txt = [fn for fn in os.listdir('watch_data/scoring_cntrl/') if fn.split('_')[0]==self.name][0]
+        self.lab_sleep_score = pd.read_csv('watch_data/scoring_cntrl/'+txt) # sleep score from the lab experiment
         self.st_lab = 1 # Hypnograph sample freq (HZ)
         self.st_watch = 1/60 # Hypnograph sample freq (HZ)
 
