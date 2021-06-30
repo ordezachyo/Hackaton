@@ -15,12 +15,9 @@ class Subject(): # Object represent a single subject in the experiment
         self.st_lab = 1 # Hypnograph sample freq (HZ)
         self.st_watch = 1/60 # Hypnograph sample freq (HZ)
 
-        for acti_csv in os.listdir('CSVs'):  # Locate data imported from the watch
-            if acti_csv[0:name.__len__()] == self.name:
-                self.acti_path = acti_csv  # save the path as an attribute
-
-        self.actigraph = pd.read_csv('CSVs/' + self.acti_path)  # load watch data
-        self.actigraph = self.actigraph[['Date', 'Time', 'SleSco']]  # keep only the relevent fields
+        csv_name = [fn for fn in os.listdir('CSVs') if fn.split('_')[0] == self.name][0]
+        csv = pd.read_csv('CSVs/' + csv_name)
+        self.actigraph = csv[['Date', 'Time', 'SleSco']]  # keep only the relevent fields
 
         self.nights = self.extract_night()
 
@@ -28,15 +25,15 @@ class Subject(): # Object represent a single subject in the experiment
 
     def plot_sleep_scores(self): # This function calculate statistics for both lab and watch data, then plots it nicely
         lab_sleep_score_flat = self.lab_sleep_score.replace([2, 3, 4, -1], 1)
-        lab_sleep_score_flat = pd.DataFrame.to_numpy(lab_sleep_score_flat)
-        lab_sleep_score_flat = lab_sleep_score_flat.squeeze()
-        self.lab_sleep_score_flat = lab_sleep_score_flat
+        lab_sleep_score_flat = pd.DataFrame.to_numpy(lab_sleep_score_flat).squeeze()
+        # lab_sleep_score_flat = lab_sleep_score_flat.squeeze()
+
 
         #-------------------------------------------------------
 
-        param = ['SE','WASO','SME','TST','SPT'] # staistic parameters to keep
+        # param = ['SE','WASO','SME','TST','SPT'] # staistic parameters to keep
 
-        self.stat_lab = sleep_statistics(self.lab_sleep_score_flat, self.st_lab)
+        self.stat_lab = sleep_statistics(lab_sleep_score_flat, self.st_lab)
         for k, v in self.stat_lab.items(): # Round all floats
             self.stat_lab[k] = round(v, 2)
         # Calculate statistics for watch nights FOR NOW USE THE DUMMY DATA
@@ -87,51 +84,64 @@ class Subject(): # Object represent a single subject in the experiment
 
 
     def extract_night(self):
+        # Defines when the night starts
+        night_start, night_end = 19, 10
+        # Gets date and time in forms of array
         date, time = list(self.actigraph['Date'].values), list(self.actigraph['Time'].values)
-
         date_ar, time_ar = self.time_date_ar(date, time)
-
-
-        rel = np.where((time_ar <= 10) | (time_ar >= 19))[0]
+        # Takes only relevant hours according to night_start' and 'night_end'
+        rel = np.where((time_ar <= night_end) | (time_ar >= night_start))[0]
         rel_hours = self.actigraph.loc[list(rel), :]
 
-        nights = list(np.unique(date_ar))[1:]
+        # format date and time arrays to one datetime format to ease the calculations
         date, time = list(rel_hours['Date'].values), list(rel_hours['Time'].values)
         date_d = []
         format_string = "%m/%d/%Y %H:%M:%S"
         for d, t in zip(date, time):
             date_d.append(datetime.datetime.strptime(f'{d} {t}', format_string))
 
+
+        # To store nights start and end indices
         end_count = 0
         start_count = 0
         end_inds = []
         start_inds = []
+        #unique dates list
+        nights = list(np.unique(date_ar))[1:]
 
+        # extract indices of each night start and end according to the time and date
         for i, date in enumerate(date_d):
+            # find first the start pf the second night and so on
             try:
-                if (date.hour == 19 and date.day == nights[start_count] and date.minute == 0):
+                if (date.hour == night_start and date.day == nights[start_count] and date.minute == 0):
                     start_inds.append(i)
                     start_count += 1
             except IndexError:
                 pass
             try:
-                if (date.hour == 10 and date.day == nights[end_count] and date.minute == 0):
+            # # find the end of the first night and so on
+                if (date.hour == night_end and date.day == nights[end_count] and date.minute == 0):
                     end_inds.append(i)
                     end_count += 1
             except IndexError:
                 pass
 
+        # inserts the beginning of the first night and the end of the last night to start and end arrays
         dfs = []
-        if len(nights)>1:
-            start_inds.insert(0, 0)
-            last_ind = len(nights)
-            end_inds.insert(last_ind-1, len(date_d))
-        else:
-            pass
+        start_inds.insert(0, 0)
+        last_ind = len(nights) if len(nights) > 1 else 2
+        end_inds.insert(last_ind-1, len(date_d))
 
+        # Deals with only 1 night of measurement
+        if len(nights)==1:
+            start_inds = start_inds[:-1]
+            end_inds = end_inds[:-1]
+
+        # Creates a unique to dataframe for each on relevant hours
         for i, j in zip(start_inds, end_inds):
             dfs.append(rel_hours.iloc[i:j])
 
+        # Trims 0 from the edges of each dataframe
         for i, df in enumerate(dfs):
             sleep_start, sleep_end = np.where(df.SleSco)[0][0], np.where(df.SleSco)[0][-1]
             dfs[i] = df.iloc[sleep_start:sleep_end + 1]
