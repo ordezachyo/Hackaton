@@ -6,7 +6,8 @@ import matplotlib.pyplot as plt
 class Subject():
 
 
-    def __init__(self,name): #Create a subject object. name ('XX4') and path
+    def __init__(self,name,overlap): #Create a subject object. name ('XX4') and path
+        self.overlap = overlap
         self.name = name
         self.lab_sleep_score = pd.read_csv('watch_data/scoring_cntrl/'+name+'_hypnoWholeFile_revised.txt') # sleep score from the lab experiment
         for acti_csv in os.listdir('CSVs'): # Locate data imported from the watch
