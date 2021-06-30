@@ -4,16 +4,15 @@ from yasa import sleep_statistics
 import matplotlib.pyplot as plt
 from matplotlib.patches import Rectangle
 
-class Subject():
+class Subject(): # Object represent a single subject in the experiment
 
-
-    def __init__(self,name,overlap): #Create a subject object. name ('XX4') and path
+    def __init__(self,name,overlap): #Create a subject object- name: str, overlap: binary ('XX4')
 
         self.name = name
-        self.overlap = overlap
+        self.overlap = overlap # does data from the watch overlaps with data from the lab)
         self.lab_sleep_score = pd.read_csv('watch_data/scoring_cntrl/'+name+'_hypnoWholeFile_revised.txt') # sleep score from the lab experiment
         self.st_lab = 1 # Hypnograph sample freq (HZ)
-        self.st_watch = 1/60
+        self.st_watch = 1/60 # Hypnograph sample freq (HZ)
         for acti_csv in os.listdir('CSVs'): # Locate data imported from the watch
             if acti_csv[0:name.__len__()] == self.name:
                 self.acti_path = acti_csv # save the path as an attribute
@@ -21,28 +20,30 @@ class Subject():
         self.actigraph = pd.read_csv('CSVs/'+ self.acti_path) # load watch data
         self.actigraph = self.actigraph[['Date','Time','SleSco']] # keep only the relevent fields
 
-    def plot_sleep_scores(self):
+    def plot_sleep_scores(self): # This function calculate statistics for both lab and watch data, then plots it nicely
         lab_sleep_score_flat = self.lab_sleep_score.replace([2, 3, 4, -1], 1)
         lab_sleep_score_flat = pd.DataFrame.to_numpy(lab_sleep_score_flat)
         lab_sleep_score_flat = lab_sleep_score_flat.squeeze()
         self.lab_sleep_score_flat = lab_sleep_score_flat
-        self.num_night_watch = 2
+
         #-------------------------------------------------------
 
-        param = ['SE','WASO','SME','TST','SPT']
+        param = ['SE','WASO','SME','TST','SPT'] # staistic parameters to keep
 
         self.stat_lab = sleep_statistics(self.lab_sleep_score_flat, self.st_lab)
-        # df_plot = pd.DataFrame.from_dict(self.stat_lab, orient='index')
-        # df_plot= df_plot.loc[param, :]
-        for k, v in self.stat_lab.items():
+        for k, v in self.stat_lab.items(): # Round all floats
             self.stat_lab[k] = round(v, 2)
         # Calculate statistics for watch nights FOR NOW USE THE DUMMY DATA
-
+        self.num_night_watch = 2
         watch_nights = [self.actigraph,self.actigraph]
-        l = []
+        self.stat_watch = [] # list of dicts - each dict represent the statistics of a single watch night
 
-        for night in range(0,self.num_night_watch):
-            l.append(sleep_statistics(watch_nights[night]['SleSco'] , self.st_watch))
+        for night in range(0,self.num_night_watch): # for each watch night
+            self.stat_watch.append(sleep_statistics(watch_nights[night]['SleSco'] , self.st_watch)) # cal statistics
+
+        for d in self.stat_watch: # Round all floats
+            for k, v in d.items():
+                d[k] = round(v, 2)
 
 
 
@@ -60,7 +61,11 @@ class Subject():
 
 
         for night in range (1,self.num_night_watch+1):
-          ax[night].plot(self.lab_sleep_score) #TO BE CHANGED TO ACTIGRAPH
+          ax[night].plot(self.actigraph['SleSco']) #TO BE CHANGED TO ACTIGRAPH
+          ax[night].legend([extra, extra, extra, extra, extra], (
+          f"SE={self.stat_watch[night-1]['SE']}", f"WASO={self.stat_watch[night-1]['WASO']}", f'SME={self.stat_watch[night-1]["SME"]}',
+          f"TST={self.stat_watch[night-1]['TST']}", f"SPT={self.stat_watch[night-1]['SPT']}"), loc=1)
+
           ax[night].set_title(f'{night}st Night (Watch)')
 
 

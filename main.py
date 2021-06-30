@@ -12,3 +12,5 @@ sub_list=[fn.split('_')[0] for fn in os.listdir('CSVs')]
 for sub in sub_list:
     overlap = overlap_dict.get(sub)
     Subjects.append(Subject(sub,overlap))
+
+print('h')
