@@ -27,8 +27,6 @@ class Subject(): # Object represent a single subject in the experiment
     def plot_sleep_scores(self): # This function calculate statistics for both lab and watch data, then plots it nicely
         lab_sleep_score_flat = self.lab_sleep_score.replace([2, 3, 4, -1], 1)
         lab_sleep_score_flat = pd.DataFrame.to_numpy(lab_sleep_score_flat).squeeze()
-        # lab_sleep_score_flat = lab_sleep_score_flat.squeeze()
-
 
         #-------------------------------------------------------
 
@@ -37,19 +35,15 @@ class Subject(): # Object represent a single subject in the experiment
         self.stat_lab = sleep_statistics(lab_sleep_score_flat, self.st_lab)
         for k, v in self.stat_lab.items(): # Round all floats
             self.stat_lab[k] = round(v, 2)
-        # Calculate statistics for watch nights FOR NOW USE THE DUMMY DATA
+        # Calculate statistics for watch nights
         self.num_night_watch = len(self.nights)
         self.stat_watch = [] # list of dicts - each dict represent the statistics of a single watch night
-
         for night in range(0,self.num_night_watch): # for each watch night
             self.stat_watch.append(sleep_statistics(self.nights[night]['SleSco'] , self.st_watch)) # cal statistics
 
         for d in self.stat_watch: # Round all floats
             for k, v in d.items():
                 d[k] = round(v, 2)
-
-
-
         #----------------------Figure Time-------------------------------
 
         fig, ax = plt.subplots(self.num_night_watch+1,figsize=(10,10))
@@ -72,6 +66,14 @@ class Subject(): # Object represent a single subject in the experiment
           ax[night].set_title(f'{night}{suf[night-1]} Night (Watch)')
 
     def time_date_ar(self, date, time):
+        '''
+        This function calulates date and time arrays with only the day and hour
+        :param date: (list) list of dates in a the dataframe
+        :param time: (list) list of times in a the dataframe
+        :return: 2 np arrays representing the date in day and time in hour
+        '''
+
+        # takes only the day and hour from each date and time
         for i in range(len(time)):
             t = time[i]
             d = date[i]
