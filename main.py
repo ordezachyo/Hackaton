@@ -4,7 +4,7 @@ import numpy as np
 from Subject import *
 import matplotlib.pyplot as plt
 
-sub = Subject('AG1')
-sub.plot_sleep_scores()
-
-print('test')
+Subjects = []
+sub_list=[fn.split('_')[0] for fn in os.listdir('CSVs')]
+for sub in sub_list:
+            Subjects.append(Subject(sub))
