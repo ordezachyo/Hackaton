@@ -1,0 +1,9 @@
+Sleep Period Time (SPT): duration from first to last period of sleep.
+
+Wake After Sleep Onset (WASO): duration of wake periods within SPT.
+
+Total Sleep Time (TST): SPT - WASO.
+
+Sleep Maintenance Efficiency (SME): TST / SPT * 100 (%).
+
+https://raphaelvallat.com/yasa/build/html/generated/yasa.sleep_statistics.html#yasa.sleep_statistics
