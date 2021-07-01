@@ -52,6 +52,10 @@ class Subject(): # Object represent a single subject in the experiment
         ax[0].plot(lab_sleep_score_flat)
         ax[0].set_title('EEG binary scoring')
 
+
+
+
+
         ax[0].legend([extra, extra, extra,extra,extra], (f"SE={self.stat_lab['SE']}", f"WASO={self.stat_lab['WASO']}",f'SME={self.stat_lab["SME"]}', f"TST={self.stat_lab['TST']}",f"SPT={self.stat_lab['SPT']}"), loc=1)
 
 
@@ -64,6 +68,11 @@ class Subject(): # Object represent a single subject in the experiment
           f"TST={self.stat_watch[night-1]['TST']}", f"SPT={self.stat_watch[night-1]['SPT']}"), loc=1)
 
           ax[night].set_title(f'{night}{suf[night-1]} Night (Watch)')
+          plt.setp(ax[night], ylabels=[self.nights[night-1].iloc[0].Time, self.nights[night-1].iloc[len(self.nights[night-1])/2].Time, self.nights[night-1].iloc[-1].Time])
+
+        plt.setp(ax, yticks=[0, 1])
+          # plt.setp(ax[1:], xticks=[0, 1])
+        plt.show()
 
     def time_date_ar(self, date, time):
         '''
