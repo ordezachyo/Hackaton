@@ -32,7 +32,7 @@ def get_regression_analysis(predictors, to_predict, param = ['SE','WASO','SME','
             fin_pred.append(val+j)
 
     pred = pd.concat([night_list[0], night_list[1]], axis=1)[fin_pred]
-    y = overlap[to_predict]
+    y = lab_eeg[to_predict]
 
     from sklearn.linear_model import LinearRegression
     reg = LinearRegression().fit(pred, y)

@@ -29,10 +29,10 @@ def get_all_night_stats(Subjects, param = ['SE','WASO','SME','TST','SPT']):
                     overlap_night.at[i, pre[-1]+par] = o_stats.get(par)
             night_list[j].at[i, 'Name'] = sub.name
 
-        stats = sleep_statistics(sub.lab_sleep_score, sub.st_watch)
+        lab_stats = sleep_statistics(sub.lab_sleep_score, sub.st_lab)
 
         for par in param:
-            lab_eeg.at[i, par] = stats.get(par)
+            lab_eeg.at[i, par] = lab_stats.get(par)
             lab_eeg.at[i, 'Name'] = sub.name
 
     for night in night_list:
