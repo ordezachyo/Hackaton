@@ -54,7 +54,7 @@ def test_Subject_class():
 
     assert flag
 
-def test
+def test_
 
 
 

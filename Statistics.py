@@ -2,7 +2,7 @@
 def get_all_night_stats(Subjects, param = ['SE','WASO','SME','TST','SPT']):
     from yasa import sleep_statistics
     import pandas as pd
-    pre = ['1st_', '2nd_', '3rd_', 'Overlap_night']
+    pre = ['1st_', '2nd_', '3rd_', 'Overlap_']
     # A list of all nights with watch features CSVs
     # The overlap night features csv
     night_list = [pd.DataFrame(columns=[pre[0] + fn for fn in param]+['Name']),
@@ -12,8 +12,11 @@ def get_all_night_stats(Subjects, param = ['SE','WASO','SME','TST','SPT']):
     lab_eeg = pd.DataFrame(columns=param)
     overlap_night = pd.DataFrame(columns=[pre[2] + fn for fn in param]+['Name'])
 
+    nights_length = [sub.nights for sub in Subjects]
+
+
     for i, sub in enumerate(Subjects):
-        nights = sub.extract_night()
+        nights = sub.nights
         if sub.overlap:
             o_night = nights.pop()
             o_stats = sleep_statistics(o_night['SleSco'], sub.st_watch)

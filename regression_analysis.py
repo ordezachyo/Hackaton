@@ -5,7 +5,7 @@ def plot_regression(y, y_pred, predictors, to_predict):
     plt.plot(y, y, color='blue', linewidth=2)
     from sklearn.metrics import r2_score
     r = round(r2_score(y, y_pred), 3)
-    fig.suptitle(f'Predicting {to_predict} from EEG data with:{[fn for fn in predictors]}, R squared:{r}')
+    fig.suptitle(f'Predicting {to_predict} from EEG data with:{[fn for fn in predictors]}, R squared:{r}', fontsize=10)
     plt.xlabel(f'{to_predict} Real values')
     plt.ylabel(f'{to_predict} Predicted values')
     plt.tight_layout()
