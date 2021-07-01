@@ -12,7 +12,7 @@ class Subject(): # Object represent a single subject in the experiment
         self.name = name
         self.overlap = overlap # does data from the watch overlaps with data from the lab
         self.EEG_start_time = EEG_start_time
-        txt = [fn for fn in os.listdir('watch_data/scoring_cntrl/') if fn.split('_')[0]==self.name][0]
+        txt = [fn for fn in os.listdir('watch_data/scoring_cntrl/') if fn.split('_')[0]==self.name and fn.find('description')==-1][0]
 
         lab_sleep_score = pd.read_csv('watch_data/scoring_cntrl/'+txt) # sleep score from the lab experiment
         lab_sleep_score_flat = lab_sleep_score.replace([2, 3, 4], 1)
