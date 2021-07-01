@@ -37,6 +37,12 @@ class Subject(): # Object represent a single subject in the experiment
 
         # param = ['SE','WASO','SME','TST','SPT'] # staistic parameters to keep
 
+        # Calculates the middle and end time of the EEG recording
+        full_time_change = datetime.timedelta(seconds = len(self.lab_sleep_score))
+        middle_time_change = datetime.timedelta(seconds = (len(self.lab_sleep_score))/2)
+        EEG_middle_time = self.EEG_start_time + middle_time_change
+        EEG_end_time = self.EEG_start_time + full_time_change
+
         self.stat_lab = sleep_statistics(self.lab_sleep_score, self.st_lab)
         for k, v in self.stat_lab.items(): # Round all floats
             self.stat_lab[k] = round(v, 2)
