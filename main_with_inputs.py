@@ -1,7 +1,11 @@
-import Subject
+from Subject import Subject
 import sys
+import os
+import correlations_matrix
+import datetime
+import matplotlib.pyplot as plt
 from regression_analysis import *
-import correlations_matrix 
+
 
 def load_subject():
     '''
@@ -72,9 +76,9 @@ def plot_sleep_data():
             for sub in Subjects:
                 sub.plot_sleep_scores()
                 plt.show()
-                print (reminder)
+            print (reminder)
         try:
-            is_sub=sub_list.index(choice_1.upper())
+            is_sub = sub_list.index(choice_1.upper())
         except:
             print ("Subject not found. Please try again.")
             continue
@@ -144,8 +148,8 @@ def show_subjects_list():
     :return:
     '''
     while True:
-        print ("Subjects list:")
-        print (sub_list)
+        print("Subjects list:")
+        print(sub_list)
         choice_4 = (input (action_4))
         if choice_4.lower() == 'quit':
             sys.exit("App Quit. Goodbye!")

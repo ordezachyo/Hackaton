@@ -1,4 +1,3 @@
-from Subject import *
 def plot_regression(y, y_pred, predictors, to_predict):
     import matplotlib.pyplot as plt
     fig, ax = plt.subplots()
@@ -13,10 +12,10 @@ def plot_regression(y, y_pred, predictors, to_predict):
     plt.show()
 
 
-def get_regression_analysis(predictors, to_predict, param = ['SE','WASO','SME','TST','SPT']):
-
+def get_regression_analysis(predictors, to_predict):
     from main_with_inputs import load_subject
     from Statistics import get_all_night_stats
+    import pandas as pd
 
     Subjects, sub_list = load_subject()
     # Removing ME5 because it has only 1 previous night

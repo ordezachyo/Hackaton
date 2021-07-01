@@ -27,7 +27,7 @@ def corr_plot():
     This function plots the correlation matrix for all the data
     :return: none
     '''
-
+    import pandas as pd
     param = ['SE','WASO','SME','TST','SPT']
     Subjects, sub_list, overlap, night_list,night_lab = get_corr_data(param)
 

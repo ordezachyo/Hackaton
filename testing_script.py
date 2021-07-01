@@ -1,9 +1,7 @@
-import Subject
 from main_with_inputs import load_subject
-import datetime
-
 # This test checks the validity of all eeg scoring files (containing only--1, 0, 1, 2, 3, 4)
 def test_eeg_scoring():
+
     Subjects, _ = load_subject()
     flag = False
     for sub in Subjects:

@@ -1,15 +1,10 @@
-import pandas as pd
-import os
 import datetime
-from yasa import sleep_statistics
-import matplotlib.pyplot as plt
-from matplotlib.patches import Rectangle
 import numpy as np
-
+import matplotlib.pyplot as plt
 class Subject(): # Object represent a single subject in the experiment
-
     def __init__(self, name, overlap, EEG_start_time): #Create a subject object- name: str, overlap: binary ('XX4')
-
+        import pandas as pd
+        import os
         sub_names = list(set([fn.split('_')[0] for fn in os.listdir('watch_data/scoring_cntrl/')]))
         if type(name) != str or overlap not in [0, 1] or type(EEG_start_time)!=datetime.datetime or name not in sub_names:
             raise ValueError
@@ -40,6 +35,11 @@ class Subject(): # Object represent a single subject in the experiment
         :return:
         '''
         # Calculates the middle and end time of the EEG recording
+        from yasa import sleep_statistics
+        import matplotlib.pyplot as plt
+        from matplotlib.patches import Rectangle
+        import numpy as np
+
         full_time_change = datetime.timedelta(seconds = len(self.lab_sleep_score))
         middle_time_change = datetime.timedelta(seconds = (len(self.lab_sleep_score))/2)
         EEG_middle_time = self.EEG_start_time + middle_time_change
@@ -109,7 +109,7 @@ class Subject(): # Object represent a single subject in the experiment
         :param time: (list) list of times in a the dataframe
         :return: 2 np arrays representing the date in day and time in hour
         '''
-
+        import numpy as np
         # takes only the day and hour from each date and time
         for i in range(len(time)):
             t = time[i]
@@ -124,6 +124,8 @@ class Subject(): # Object represent a single subject in the experiment
 
 
     def extract_night(self):
+        import numpy as np
+        import pandas as pd
         # Defines when the night starts
         night_start, night_end = 19, 10
         # Gets date and time in forms of array
