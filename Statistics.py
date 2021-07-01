@@ -13,7 +13,10 @@ def get_all_night_stats(Subjects, param = ['SE','WASO','SME','TST','SPT']):
     overlap_night = pd.DataFrame(columns=[pre[2] + fn for fn in param]+['Name'])
 
     nights_length = [sub.nights for sub in Subjects]
+    one_night_indices = [i for i, x in enumerate(nights_length) if x == 1]
 
+    for ind in one_night_indices:
+        Subjects.pop(ind)
 
     for i, sub in enumerate(Subjects):
         nights = sub.nights

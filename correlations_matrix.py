@@ -11,11 +11,9 @@ def get_corr_data( param = ['SE','WASO','SME','TST','SPT']):
     '''
     from main_with_inputs import load_subject
     Subjects, sub_list = load_subject()
-    # Removing ME5 because it has only 1 previous night
-    Subjects.pop(sub_list.index('ME5'))
 
     night_list, night_lab, overlap = get_all_night_stats(Subjects, param)
-    return  Subjects,sub_list,overlap,night_list,night_lab
+    return Subjects, sub_list,overlap, night_list,night_lab
 
 def corr_plot():
     '''

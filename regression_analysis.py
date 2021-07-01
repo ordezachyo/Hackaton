@@ -18,9 +18,7 @@ def get_regression_analysis(predictors, to_predict):
     import pandas as pd
 
     Subjects, sub_list = load_subject()
-    # Removing ME5 because it has only 1 previous night
-    Subjects.pop(sub_list.index('ME5'))
-
+    
     night_list, lab_eeg, _ = get_all_night_stats(Subjects)
     pre = ['1st_', '2nd_', '3rd_']
 
