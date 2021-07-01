@@ -3,6 +3,7 @@ import pandas as pd
 import os
 import datetime
 from Subject import Subject
+
 # This test checks the validity of all eeg scoring files (containing only--1, 0, 1, 2, 3, 4)
 def test_eeg_scoring():
     Subjects, _ = load_subject()
@@ -39,7 +40,7 @@ def test_Subject_class():
     right_overlap, wrong_overlap = 0, 2
     right_time, wrong_time = datetime.datetime.strptime('22:32:00 11/19/2018', date_format_string), '22:32:00 11/19/2018'
     wrong_inputs = [[right_name, right_overlap, wrong_time], [right_name, wrong_overlap, right_time], [wrong_name, right_overlap, right_time], [wrong_name_2, right_overlap, right_time]]
-    right_inputs = ['ME5', right_overlap, right_time]
+    right_inputs = [right_name, right_overlap, right_time]
     # The Value error is supposed to be raised
     for inp in wrong_inputs:
         try:
@@ -54,7 +55,6 @@ def test_Subject_class():
 
     assert flag
 
-def test_
 
 
 
