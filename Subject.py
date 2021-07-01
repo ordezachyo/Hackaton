@@ -57,34 +57,42 @@ class Subject(): # Object represent a single subject in the experiment
                 d[k] = round(v, 2)
         #----------------------Figure Time-------------------------------
 
-        fig, ax = plt.subplots(self.num_night_watch+1,figsize=(10,10))
+        fig, ax = plt.subplots(self.num_night_watch+1,2,figsize=(10,10),gridspec_kw={'width_ratios': [3, 1]})
         extra = Rectangle((0, 0), 1, 1, fc="w", fill=False, edgecolor='none', linewidth=0)
         fig.suptitle(f'Subject {self.name}')
-        ax[0].plot(self.lab_sleep_score)
-        ax[0].set_title('EEG binary scoring')
+        ax[0,0].plot(self.lab_sleep_score)
+        ax[0,0].set_title('EEG binary scoring')
 
-        ax[0].legend([extra, extra, extra,extra,extra], (f"SE={self.stat_lab['SE']}", f"WASO={self.stat_lab['WASO']}",f'SME={self.stat_lab["SME"]}', f"TST={self.stat_lab['TST']}",f"SPT={self.stat_lab['SPT']}"), loc=1)
+        ax[0,1].legend([extra, extra, extra,extra,extra], (f"SE={self.stat_lab['SE']}", f"WASO={self.stat_lab['WASO']}",f'SME={self.stat_lab["SME"]}', f"TST={self.stat_lab['TST']}",f"SPT={self.stat_lab['SPT']}"), loc=10)
+        ax[0,1].set_xticks([])
+        ax[0, 1].set_yticks([])
+        ax[0, 1].set_axis_off()
+
 
 
         suf = ['st', 'nd', 'rd', 'th']
 
         for night in range (1,len(self.nights)+1):
-          ax[night].plot(self.nights[night-1]['SleSco'].values) #TO BE CHANGED TO ACTIGRAPH
-          ax[night].legend([extra, extra, extra, extra, extra], (
+          ax[night,0].plot(self.nights[night-1]['SleSco'].values) #TO BE CHANGED TO ACTIGRAPH
+          ax[night,1].legend([extra, extra, extra, extra, extra], (
           f"SE={self.stat_watch[night-1]['SE']}", f"WASO={self.stat_watch[night-1]['WASO']}", f'SME={self.stat_watch[night-1]["SME"]}',
-          f"TST={self.stat_watch[night-1]['TST']}", f"SPT={self.stat_watch[night-1]['SPT']}"), loc=1)
+          f"TST={self.stat_watch[night-1]['TST']}", f"SPT={self.stat_watch[night-1]['SPT']}"), loc=10)
+          ax[night, 1].set_xticks([])
+          ax[night, 1].set_yticks([])
+          ax[night, 1].set_axis_off()
 
           if self.overlap and night==len(self.nights):
-              ax[night].set_title(f'{night}{suf[night - 1]} Overlap Night (Watch)')
+              ax[night,0].set_title(f'{night}{suf[night - 1]} Overlap Night (Watch)')
           else:
-              ax[night].set_title(f'{night}{suf[night-1]} Night (Watch)')
+              ax[night,0].set_title(f'{night}{suf[night-1]} Night (Watch)')
 
-          plt.sca(ax[night])
+          plt.sca(ax[night,0])
           plt.xticks([0, int(len(self.nights[night-1])/2), len(self.nights[night-1])], [self.nights[night-1].iloc[0].Time[:-3], self.nights[night-1].iloc[int(len(self.nights[night-1])/2)].Time[:-3], self.nights[night-1].iloc[-1].Time[:-3]])
           # plt.setp(ax[night], xticks=[0, int(len(self.nights[night-1])/2), self.nights[night-1]], xlabels=[self.nights[night-1].iloc[0].Time, self.nights[night-1].iloc[int(len(self.nights[night-1])/2)].Time, self.nights[night-1].iloc[-1].Time])
 
         plt.setp(ax, yticks=[0, 1])
           # plt.setp(ax[1:], xticks=[0, 1])
+        plt.tight_layout()
         plt.show()
 
     def time_date_ar(self, date, time):
