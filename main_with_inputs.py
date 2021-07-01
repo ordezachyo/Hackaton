@@ -41,11 +41,11 @@ def instructions():
     action_4 = ("If you would like to remove a subject, type his subject code\n\
         Reminder - you can go back to the main menu by typing 'main' or quit by typing 'quit' \n")
     reminder = ("Reminder - you can go back to the main menu by typing 'main' or quit by typing 'quit' ")
-    return main_menu, action_1, action_2, action_2_1, action_4, reminder
+    return main_menu, action_1, action_2, action_2_1,action_3, action_4, reminder
 
 if __name__ == "__main__":
     Subjects, sub_list = load_subject()
-    main_menu, action_1, action_2, action_2_1, action_4, reminder = instructions()
+    main_menu, action_1, action_2, action_2_1,action_3, action_4, reminder = instructions()
 
     while True:
         main_choice = (input (main_menu)) # User's choice for main menu
@@ -135,7 +135,7 @@ if __name__ == "__main__":
 
         if main_choice == 3: #3. Check Correlations 
             print(action_3)
-            correlations_matrix.get_corr_data()
+            correlations_matrix.corr_plot()
 
         if main_choice == 4: #4. Examine Subjects List
             while True:
