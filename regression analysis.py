@@ -12,7 +12,7 @@ def get_regression_analysis(predictors, to_predict, param = ['SE','WASO','SME','
 
     night_list, overlap = get_all_night_stats(Subjects, param)
 
-
+    pre = ['1st_', '2nd_', '3rd_']
     pred = pd.concat([night_list[0], night_list[1]], axis=1)[[pre[0]+'SME', pre[1]+'SME']]
     to_predict = 'SE'
     y = overlap['to_predict']
