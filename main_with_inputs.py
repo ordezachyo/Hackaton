@@ -61,15 +61,18 @@ def instructions():
         Alternativly, type 'all' to plot all subjects\n")
     action_2 = ("Choose the predicted variable:")
     action_2_1 = ("Choose predictors, seperate by pressing 'Enter'. Type 'end' to finish")
-    action_3 = ("Which correlations would you like to check?\n\
-        1. Previous nights recordings (Motionlogger watch) to sleep lab night recording (EEG)\n\
-        2. Motionlogger to EEG - within sleep lab night recording\n")
+    action_3 = ("Which correlation would you like to check?\n\
+        1. Previous nights means (Motionlogger watch) to sleep lab night recording (EEG)\n\
+        2. Motionlogger to EEG - within sleep lab night recording\n\
+        3. Motionlogger watch data - 1st to 2nd night recordings ")
     action_3_1 = ("Creating correlation matrix - Previous Nights -> Sleep Lab")
     action_3_2 = ("Creating correlation matrix - Within Sleep Lab")
+    action_3_3 = ("Creating correlation matrix - Within Motionlogger watch'")
     action_4 = ("If you would like to remove a subject, type his subject code\n\
         Reminder - you can go back to the main menu by typing 'main' or quit by typing 'quit' \n")
     reminder = ("Reminder - you can go back to the main menu by typing 'main' or quit by typing 'quit'\n ")
-    return main_menu_prompt, action_1, action_2, action_2_1,action_3,action_3_1,action_3_2, action_4, reminder
+    return main_menu_prompt, action_1, action_2, action_2_1,action_3,action_3_1,action_3_2,action_3_3, action_4, reminder
+
 
 def main_menu():
     '''
@@ -126,10 +129,16 @@ def check_correlations():
             continue
         else: 
             if choice_3 == 1:
-                corr_plot()
-                break
+               print (action_3_1)
+               corr_mean_lab()
+               break
             elif choice_3 == 2:
+               print (action_3_2)
                corr_lab_night()
+               break
+            elif choice_3 == 3:
+               print (action_3_3)
+               corr_between_nights()
                break
             else:
                 print("Sorry, I didn't understand that.")
@@ -204,7 +213,7 @@ def show_subjects_list():
 
 if __name__ == "__main__":
     Subjects, sub_list = load_subject()
-    main_menu_prompt, action_1, action_2, action_2_1,action_3,action_3_1,action_3_2,action_4,reminder = instructions()
+    main_menu_prompt, action_1, action_2, action_2_1,action_3,action_3_1,action_3_2,action_3_3,action_4,reminder = instructions()
 
     while True:
         main_choice=main_menu()
