@@ -23,7 +23,7 @@ def load_subject():
 
     return Subjects, sub_list
 
-def start_instructions():
+def instructions():
     print(f"Welcome to SleSco™ !\n\n")  # Welcome message
     # Setting the different messages for interacting with the user
     main_menu = (f"Choose the number of the action you would you like to perform:\n\
@@ -44,7 +44,7 @@ def start_instructions():
 
 if __name__ == "__main__":
     Subjects, sub_list = load_subject()
-    main_menu, action_1, action_2, action_2_1, action_4, reminder = start_instructions()
+    main_menu, action_1, action_2, action_2_1, action_4, reminder = instructions()
 
     while True:
         main_choice = (input (main_menu))
@@ -115,7 +115,8 @@ if __name__ == "__main__":
                             print('No predictors given. Returning to main menu')
                             break
                         else:
-                            regression_analysis.get_regression_analysis(pre_list,predicted)
+                            print(f"Running linear regression to predict '{predicted.upper()}' - measured in sleep lab, using previous nights {pre_list}")
+                            regression_analysis.get_regression_analysis(pre_list,predicted.upper())
                             break
                     try:
                         is_pre=var_list.index(predictor.upper())
