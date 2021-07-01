@@ -25,7 +25,7 @@ _Our scripts_<br />
 4. Plots sleep data for subject\s according to user's request
 5. Creats a prediction model for EEG data by actigraph based on chosen sleep 
     parameters
-6. Creats a correlation matrix
+6. Creats various correlation matrices
 7. Shows the subject list
 
 **Statistics** Pulls the data (sleep parameters from yasa) and plots the correlation matrix. Calculates regression model.
