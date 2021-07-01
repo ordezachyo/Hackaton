@@ -25,10 +25,21 @@ def load_subject():
     date_format_string = "%H:%M:%S %m/%d/%Y"
     Subjects = []
 
+
+
     for sub in sub_list:
         overlap = (overlap_dict.get(sub))[0]
         EEG_start_time = datetime.datetime.strptime((overlap_dict.get(sub))[1], date_format_string)
         Subjects.append(Subject(sub, overlap, EEG_start_time))
+
+    # Removing Subjects with only one night
+    nights_length = [len(sub.nights) for sub in Subjects]
+    one_night_indices = [i for i, x in enumerate(nights_length) if x == 1]
+
+    while len(one_night_indices)>0:
+        Subjects.pop(one_night_indices[0])
+        nights_length = [len(sub.nights) for sub in Subjects]
+        one_night_indices = [i for i, x in enumerate(nights_length) if x == 1]
 
     return Subjects, sub_list
 
@@ -167,7 +178,7 @@ def run_prediction_model():
                     break
                 else: # good to go
                     print(f"Running linear regression to predict '{predicted.upper()}' - measured in sleep lab, using previous nights {pre_list}")
-                    get_regression_analysis(pre_list,predicted.upper()) #running regression
+                    get_regression_analysis(pre_list,predicted.upper(), Subjects) #running regression
                     break
             try:
                 is_pre=var_list.index(predictor.upper())
@@ -188,23 +199,8 @@ def show_subjects_list():
     This function shows the subject list
     :return: None
     '''
-    while True:
-        print("Subjects list:")
-        print(sub_list)
-        choice_4 = (input (action_4))
-        if choice_4.lower() == 'quit':
-            sys.exit("App Quit. Goodbye!")
-        elif choice_4.lower() == 'main':
-            break
-        try:
-            is_sub=sub_list.index(choice_4.upper())
-        except:
-            print ("Subject not found. Please try again.")
-            continue
-        else:
-            sub_list.pop(is_sub)
-            Subjects.pop(is_sub)
-            continue
+    print("Subjects list:")
+    print(sub_list)
 
 if __name__ == "__main__":
     Subjects, sub_list = load_subject()

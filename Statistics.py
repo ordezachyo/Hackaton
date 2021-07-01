@@ -1,13 +1,12 @@
 from Subject import *
 import matplotlib.pyplot as plt
-from yasa import sleep_statistics
-from main_with_inputs import load_subject
 import seaborn as sns
 
 def get_all_night_stats(Subjects, param = ['SE','WASO','SME','TST','SPT']):
     from yasa import sleep_statistics
     import pandas as pd
     pre = ['1st_', '2nd_', '3rd_', 'Watch_']
+
     # A list of all nights with watch features CSVs
     # The overlap night features csv
     night_list = [pd.DataFrame(columns=[pre[0] + fn for fn in param]+['Name']),
@@ -17,11 +16,7 @@ def get_all_night_stats(Subjects, param = ['SE','WASO','SME','TST','SPT']):
     lab_eeg = pd.DataFrame(columns=param)
     overlap_night = pd.DataFrame(columns=[pre[2] + fn for fn in param]+['Name'])
 
-    nights_length = [len(sub.nights) for sub in Subjects]
-    one_night_indices = [i for i, x in enumerate(nights_length) if x == 1]
 
-    for ind in one_night_indices:
-        Subjects.pop(ind)
 
     for i, sub in enumerate(Subjects):
         nights = sub.nights
@@ -66,12 +61,10 @@ def plot_regression(y, y_pred, predictors, to_predict):
     plt.show()
 
 # Regression analysis
-def get_regression_analysis(predictors, to_predict):
+def get_regression_analysis(predictors, to_predict, Subjects):
     from main_with_inputs import load_subject
     from Statistics import get_all_night_stats
     import pandas as pd
-
-    Subjects, sub_list = load_subject()
 
     night_list, lab_eeg, _ = get_all_night_stats(Subjects)
     pre = ['1st_', '2nd_', '3rd_']
@@ -91,7 +84,7 @@ def get_regression_analysis(predictors, to_predict):
     plot_regression(y, y_pred, predictors, to_predict)
 
 # Correlations analysis
-def get_corr_data( param = ['SE','WASO','SME','TST','SPT']):
+def get_corr_data(param=['SE', 'WASO', 'SME', 'TST', 'SPT']):
     '''
     #This function pulls the data for the correlation matrix
     :param param: list of statistics to include in the plot
@@ -99,24 +92,28 @@ def get_corr_data( param = ['SE','WASO','SME','TST','SPT']):
     '''
     from main_with_inputs import load_subject
     Subjects, sub_list = load_subject()
+    # Removing ME5 because it has only 1 previous night
+    Subjects.pop(sub_list.index('ME5'))
 
     night_list, night_lab, overlap = get_all_night_stats(Subjects, param)
-    return Subjects, sub_list,overlap, night_list,night_lab
+    return Subjects, sub_list, overlap, night_list, night_lab
 
-def corr_plot():
+
+def corr_mean_lab():
     '''
     This function plots the correlation matrix for all the data
     :return: none
     '''
-    param = ['SE','WASO','SME','TST','SPT']
-    Subjects, sub_list, overlap, night_list,night_lab = get_corr_data(param)
+    param = ['SE', 'WASO', 'SME', 'TST', 'SPT']
+    Subjects, sub_list, overlap, night_list, night_lab = get_corr_data(param)
 
-    night_list.append(night_lab) # Add statistics from the lab before concat all data
+    night_list.append(night_lab)  # Add statistics from the lab before concat all data
 
     df_all = pd.concat(night_list, axis=1)
-    df_all - pd.concat([df_all,night_lab], axis = 1)
+    df_all - pd.concat([df_all, night_lab], axis=1)
 
-    df_all.drop(['1st_SE','2nd_SE','3rd_SE','3rd_WASO','3rd_SME','3rd_TST','3rd_SPT'] ,axis = 1, inplace = True) # Drop all shit
+    df_all.drop(['1st_SE', '2nd_SE', '3rd_SE', '3rd_WASO', '3rd_SME', '3rd_TST', '3rd_SPT'], axis=1,
+                inplace=True)  # Drop all shit
 
     # Add means col
 
@@ -126,32 +123,54 @@ def corr_plot():
     df_all['mean_SME'] = df_all[['1st_SME', '2nd_SME']].mean(axis=1)
 
     # Change some col names
-
-    df_all.rename( columns ={'SE' : 'SE_Lab', 'SME' :'SME_LAB','TST':'TST_Lab','SPT':'SPT_LAB','WASO':'WASO_Lab'}, inplace=True)
-
+    df_all.drop(['2nd_WASO', '2nd_SME', '2nd_TST', '2nd_SPT', '1st_WASO', '1st_SME', '1st_TST', '1st_SPT'], axis=1,
+                inplace=True)
+    df_all.rename(columns={'SE': 'EEG_SE', 'SME': 'EEG_SME', 'TST': 'EEG_TST', 'SPT': 'EEG_SPT', 'WASO': 'EEG_WASO'},
+                  inplace=True)
 
     corr_matrix = df_all.astype(float).corr()
 
     fig, ax = plt.subplots(figsize=(12, 9))
-    fig.suptitle('Correlation Matrix')
+    fig.suptitle('Correlation Matrix of Mean Watch data and EEG Data')
     sns.set(font_scale=1)
-    sns.heatmap(corr_matrix, annot=True,annot_kws = {"size": 10},cmap = 'coolwarm',square = True)
+    sns.heatmap(corr_matrix, annot=True, annot_kws={"size": 10}, cmap='coolwarm')
     plt.show()
+
 
 def corr_lab_night():
     '''
     This function plots the correlation matrix of the lab night's data from the watch and EEG
     :return: none
     '''
-    param = ['SE','WASO','SME','TST','SPT']
-    Subjects, sub_list, overlap, night_list,night_lab = get_corr_data(param)
-    df_all = pd.concat([night_lab,overlap], axis = 1)
-    df_all.drop(['3rd_SE','3rd_WASO','3rd_SME','3rd_TST','3rd_SPT'] ,axis = 1, inplace = True) # Drop all shit
-    df_all.rename( columns ={'SE' : 'EEG_SE', 'SME' :'EEG_SME','TST':'EEG_TST','SPT':'EEG_SPT','WASO':'EEG_WASO'}, inplace=True)
+    param = ['SE', 'WASO', 'SME', 'TST', 'SPT']
+    Subjects, sub_list, overlap, night_list, night_lab = get_corr_data(param)
+    df_all = pd.concat([night_lab, overlap], axis=1)
+    df_all.drop(['3rd_SE', '3rd_WASO', '3rd_SME', '3rd_TST', '3rd_SPT'], axis=1, inplace=True)  # Drop all shit
+    df_all.rename(columns={'SE': 'EEG_SE', 'SME': 'EEG_SME', 'TST': 'EEG_TST', 'SPT': 'EEG_SPT', 'WASO': 'EEG_WASO'},
+                  inplace=True)
     corr_matrix = df_all.astype(float).corr()
 
-    fig, ax = plt.subplots(figsize=(9, 9))
-    fig.suptitle('Correlation between EEG and watch on Lab-night', fontsize='16')
+    fig, ax = plt.subplots(figsize=(12, 9))
+    fig.suptitle('Correlation Matrix of Lab Night')
     sns.set(font_scale=1)
-    sns.heatmap(corr_matrix, annot=True,annot_kws = {"size": 10},cmap = 'coolwarm')
+    sns.heatmap(corr_matrix, annot=True, annot_kws={"size": 10}, cmap='coolwarm')
+    plt.show()
+
+
+def corr_between_nights():
+    '''
+    This function plots the correlation matrix of the lab night's data from the watch and EEG
+    :return: none
+    '''
+    param = ['SE', 'WASO', 'SME', 'TST', 'SPT']
+    Subjects, sub_list, overlap, night_list, night_lab = get_corr_data(param)
+    df_all = pd.concat(night_list, axis=1)
+    df_all.drop(['3rd_SE', '3rd_WASO', '3rd_SME', '3rd_TST', '3rd_SPT'], axis=1, inplace=True)  # Drop all shit
+    # night_lab.rename( columns ={'SE' : 'EEG_SE', 'SME' :'EEG_SME','TST':'EEG_TST','SPT':'EEG_SPT','WASO':'EEG_WASO'}, inplace=True)
+    corr_matrix = df_all.astype(float).corr()
+
+    fig, ax = plt.subplots(figsize=(12, 9))
+    fig.suptitle('Correlation Between Data From Two Watch Nights')
+    sns.set(font_scale=1)
+    sns.heatmap(corr_matrix, annot=True, annot_kws={"size": 10}, cmap='coolwarm')
     plt.show()
