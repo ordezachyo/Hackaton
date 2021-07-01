@@ -9,7 +9,7 @@ def get_all_night_stats(Subjects, param = ['SE','WASO','SME','TST','SPT']):
     :param param: list-parameters to count statistics for
     :return: Statistics dataframe of all nights with watch, eeg night and overlap night
     '''
-    
+
     from yasa import sleep_statistics
     import pandas as pd
     pre = ['1st_', '2nd_', '3rd_', 'Watch_']
