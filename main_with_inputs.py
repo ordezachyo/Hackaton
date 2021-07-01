@@ -59,7 +59,7 @@ def instructions():
     action_3_2 = ("Creating correlation matrix - Within Sleep Lab")
     action_4 = ("If you would like to remove a subject, type his subject code\n\
         Reminder - you can go back to the main menu by typing 'main' or quit by typing 'quit' \n")
-    reminder = ("Reminder - you can go back to the main menu by typing 'main' or quit by typing 'quit' ")
+    reminder = ("Reminder - you can go back to the main menu by typing 'main' or quit by typing 'quit'\n ")
     return main_menu_prompt, action_1, action_2, action_2_1,action_3,action_3_1,action_3_2, action_4, reminder
 
 def main_menu():
@@ -115,14 +115,18 @@ def check_correlations():
             print("Sorry, I didn't understand that.")
             #better try again... Return to the start of the loop
             continue
-        if choice_3 == 1:
-            corr_plot()
-        if choice_3 == 2:
-            corr_lab_night()
         else: 
-            print("Sorry, I didn't understand that.")
-            #better try again... Return to the start of the loop
-            continue
+            if choice_3 == 1:
+                corr_plot()
+                break
+            elif choice_3 == 2:
+               corr_lab_night()
+               break
+            else:
+                print("Sorry, I didn't understand that.")
+                print(reminder)
+                #better try again... Return to the start of the loop
+                continue
 
 def run_prediction_model():
     '''
