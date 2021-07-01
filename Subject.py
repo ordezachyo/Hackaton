@@ -148,7 +148,13 @@ class Subject(): # Object represent a single subject in the experiment
         for i, df in enumerate(dfs):
             sleep_start, sleep_end = np.where(df.SleSco)[0][0], np.where(df.SleSco)[0][-1]
             dfs[i] = df.iloc[sleep_start:sleep_end + 1]
-        return dfs
+        
+        # Extracts the overlapping night
+        overlap_night =[]
+        if self.overlap:
+            overlap_night=dfs.pop()
+            return dfs,overlap_night
+        return dfs 
 
 
 
