@@ -81,7 +81,7 @@ def get_regression_analysis(predictors, to_predict):
     :param to_predict: name of the predicted value
     :return: None
     '''
-    from main_with_inputs import load_subject
+    from main import load_subject
     from Statistics import get_all_night_stats
     import pandas as pd
 
@@ -113,7 +113,7 @@ def get_corr_data(param=['SE', 'WASO', 'SME', 'TST', 'SPT']):
     :param param: list of statistics to include in the plot
     :return: Subject: a list of all the subjects, sub_list: a list of all the subjects names, overlap: DataFrame of the overlap night, night_lab: DataFrame of the night in the lab
     '''
-    from main_with_inputs import load_subject
+    from main import load_subject
     Subjects, sub_list = load_subject()
     # Removing ME5 because it has only 1 previous night
     Subjects.pop(sub_list.index('ME5'))
