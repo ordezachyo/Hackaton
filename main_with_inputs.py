@@ -185,7 +185,7 @@ if __name__ == "__main__":
     while True:
         main_choice=main_menu()
 
-        if main_choice == 'main':
+        if main_choice.lower() == 'main':
             continue
 
         try:
