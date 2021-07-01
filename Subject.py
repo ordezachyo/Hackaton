@@ -26,7 +26,7 @@ class Subject(): # Object represent a single subject in the experiment
 
     def plot_sleep_scores(self): # This function calculate statistics for both lab and watch data, then plots it nicely
         lab_sleep_score_flat = self.lab_sleep_score.replace([2, 3, 4], 1)
-        lab_sleep_score_flat = self.lab_sleep_score.replace(-1, NaN)
+        lab_sleep_score_flat = lab_sleep_score_flat.replace(-1, np.nan)
         lab_sleep_score_flat = pd.DataFrame.to_numpy(lab_sleep_score_flat).squeeze()
 
         #-------------------------------------------------------
@@ -69,7 +69,7 @@ class Subject(): # Object represent a single subject in the experiment
           f"TST={self.stat_watch[night-1]['TST']}", f"SPT={self.stat_watch[night-1]['SPT']}"), loc=1)
 
           ax[night].set_title(f'{night}{suf[night-1]} Night (Watch)')
-          plt.setp(ax[night], ylabels=[self.nights[night-1].iloc[0].Time, self.nights[night-1].iloc[len(self.nights[night-1])/2].Time, self.nights[night-1].iloc[-1].Time])
+          plt.setp(ax[night], yticks=[0, int(len(self.nights[night-1])/2), self.nights[night-1]], ylabels=[self.nights[night-1].iloc[0].Time, self.nights[night-1].iloc[int(len(self.nights[night-1])/2)].Time, self.nights[night-1].iloc[-1].Time])
 
         plt.setp(ax, yticks=[0, 1])
           # plt.setp(ax[1:], xticks=[0, 1])
@@ -158,7 +158,13 @@ class Subject(): # Object represent a single subject in the experiment
         for i, df in enumerate(dfs):
             sleep_start, sleep_end = np.where(df.SleSco)[0][0], np.where(df.SleSco)[0][-1]
             dfs[i] = df.iloc[sleep_start:sleep_end + 1]
-        return dfs
+        
+        # Extracts the overlapping night
+        overlap_night =[]
+        if self.overlap:
+            overlap_night=dfs.pop()
+            return dfs,overlap_night
+        return dfs 
 
 
 
