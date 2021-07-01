@@ -1,6 +1,10 @@
 from Subject import *
 import matplotlib.pyplot as plt
 
+def get_regression_analysis(predictors, to_predict):
+    to_p
+
+
 overlap_dict={'AG1': [1,'23:48:00'], 'CS7':[1,'21:29:00'], 'DS6':[1,'22:41:00'], 'EC0':[1,'23:54'], 'EG5':[1,'23:10:00'],
               'HS0':[1,'23:30:00'], 'JR9':[1,'22:48:00'], 'ME5':[0,'23:46:00'], 'MK2':[1,'22:32:00'], 'NS6':[0,'24:22:00'],'RP8':[1,'22:15:00'], 'TN8':[1,'24:54:00'], 'TR3':[1,'23:53:00'], 'TZ7':[1,'23:53:00']}
 # Is there an overlap actigraph recording for the sleep lab recording?
@@ -37,14 +41,19 @@ for i, sub in enumerate(Subjects):
         overlap.at[i, par] = stats.get(par)
 
 pred = pd.concat([night_list[0], night_list[1]], axis=1)[[pre[0]+'SME', pre[1]+'SME']]
-y = overlap['SE']
+to_predict = 'SE'
+y = overlap['to_predict']
 
 from sklearn.linear_model import LinearRegression
 reg = LinearRegression().fit(pred, y)
 y_pred = reg.predict(pred)
 
-plt.scatter(y, y_pred)
-plt.plot(pred, y, color='blue', linewidth=2)
+plt.scatter(y, y_pred, color='red')
+plt.plot(y, y, color='blue', linewidth=2)
+from sklearn.metrics import r2_score
+r = r2_score(y, y_pred)
+plt.text(60, 90, f'R squared:{round(r, 2)}')
+plt.title(F{'')
 plt.show()
 
 

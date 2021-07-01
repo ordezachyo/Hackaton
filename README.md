@@ -1,4 +1,4 @@
-# Hackaton
+# Hackathon
 **Comparing sleep patterns as measured in actigraphy versus EEG**<br />
 _Our goal is to create an application that recieves actigraph data and uses it to predict sleep quality, as represented by EEG data, in the following night_   
 
