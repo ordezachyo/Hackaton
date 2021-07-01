@@ -63,6 +63,11 @@ class Subject(): # Object represent a single subject in the experiment
         ax[0,0].plot(self.lab_sleep_score)
         ax[0,0].set_title('EEG binary scoring')
 
+        plt.sca(ax[0,0])
+        plt.xticks([0, len(self.lab_sleep_score) / 2, len(self.lab_sleep_score)],
+                   [str(self.EEG_start_time.time())[0:5], str(EEG_middle_time.time())[0:5],
+                    str(EEG_end_time.time())[0:5]])
+
         ax[0,1].legend([extra, extra, extra,extra,extra], (f"SE={self.stat_lab['SE']}", f"WASO={self.stat_lab['WASO']}",f'SME={self.stat_lab["SME"]}', f"TST={self.stat_lab['TST']}",f"SPT={self.stat_lab['SPT']}"), loc=10)
         ax[0,1].set_xticks([])
         ax[0, 1].set_yticks([])
