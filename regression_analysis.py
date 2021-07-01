@@ -1,5 +1,4 @@
 from Subject import *
-
 from main_with_inputs import load_subject
 from Statistics import get_all_night_stats
 
@@ -23,7 +22,7 @@ def get_regression_analysis(predictors, to_predict, param = ['SE','WASO','SME','
     # Removing ME5 because it has only 1 previous night
     Subjects.pop(sub_list.index('ME5'))
 
-    night_list, lab_eeg = get_all_night_stats(Subjects)
+    night_list, lab_eeg, _ = get_all_night_stats(Subjects)
     pre = ['1st_', '2nd_', '3rd_']
 
     fin_pred = []

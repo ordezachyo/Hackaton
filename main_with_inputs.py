@@ -23,7 +23,7 @@ def load_subject():
     return Subjects, sub_list
 
 if __name__ == "__main__":
-
+    Subjects, sub_list = load_subject()
     print(f"Welcome to SleSco™ !\n\n") # Welcome message
     # Setting the different messages for interacting with the user
     main_menu = (f"Choose the number of the action you would you like to perform:\n\
