@@ -10,7 +10,7 @@ def get_regression_analysis(predictors, to_predict, param = ['SE','WASO','SME','
     # Removing ME5 because it has only 1 previous night
     Subjects.pop(sub_list.index('ME5'))
 
-    night_list, overlap = get_all_night_stats(Subjects, param)
+    night_list, overlap = get_all_night_stats(Subjects)
     pre = ['1st_', '2nd_', '3rd_']
 
     fin_pred = []
