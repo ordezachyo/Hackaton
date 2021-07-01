@@ -10,7 +10,11 @@ import seaborn as sns
 
 
 def get_corr_data( param = ['SE','WASO','SME','TST','SPT']):
-
+    '''
+    #This function pulls the data for the correlation matrix
+    :param param: list of statistics to include in the plot
+    :return: Subject: a list of all the subjects, sub_list: a list of all the subjects names, overlap: DataFrame of the overlap night, night_lab: DataFrame of the night in the lab
+    '''
     Subjects, sub_list = load_subject()
     # Removing ME5 because it has only 1 previous night
     Subjects.pop(sub_list.index('ME5'))
@@ -19,6 +23,10 @@ def get_corr_data( param = ['SE','WASO','SME','TST','SPT']):
     return  Subjects,sub_list,overlap,night_list,night_lab
 
 def corr_plot():
+    '''
+    This function plots the correlation matrix for all the data
+    :return: none
+    '''
 
     param = ['SE','WASO','SME','TST','SPT']
     Subjects, sub_list, overlap, night_list,night_lab = get_corr_data(param)
@@ -48,6 +56,7 @@ def corr_plot():
     fig.suptitle('Correlation Matrix')
     sns.set(font_scale=1)
     sns.heatmap(corr_matrix, annot=True,annot_kws = {"size": 10},cmap = 'coolwarm',square = True)
+    plt.show()
 
 
 

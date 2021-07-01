@@ -1,5 +1,6 @@
 from Subject import *
 from main_with_inputs import load_subject
+import pytest
 
 # This test checks the validity of all eeg scoring files (containing only--1, 0, 1, 2, 3, 4)
 def test_eeg_scoring():
@@ -12,6 +13,21 @@ def test_eeg_scoring():
             flag = True
 
     assert not flag
+
+def test_action_4_csv():
+    Subjects, _ = load_subject()
+    flag = False
+    for sub in Subjects():
+        action_4_csv = sub.actigraph
+        if 'SleSco' not in action_4_csv.columns:
+            flag = True
+
+    assert not flag
+
+
+
+
+
 
 
 
