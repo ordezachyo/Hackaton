@@ -37,7 +37,3 @@ def get_regression_analysis(predictors, to_predict):
     y_pred = reg.predict(pred)
 
     plot_regression(y, y_pred, predictors, to_predict)
-
-if __name__ == "__main__":
-    get_regression_analysis(['TST', 'SPT', 'WASO'], 'SME')
-

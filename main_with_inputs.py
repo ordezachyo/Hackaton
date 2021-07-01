@@ -1,11 +1,10 @@
 from Subject import Subject
 import sys
 import os
-import correlations_matrix
+from correlations_matrix import *
 import datetime
 import matplotlib.pyplot as plt
 from regression_analysis import *
-
 
 def load_subject():
     '''
@@ -27,6 +26,7 @@ def load_subject():
 
     date_format_string = "%H:%M:%S %m/%d/%Y"
     Subjects = []
+
     for sub in sub_list:
         overlap = (overlap_dict.get(sub))[0]
         EEG_start_time = datetime.datetime.strptime((overlap_dict.get(sub))[1], date_format_string)
@@ -203,7 +203,7 @@ if __name__ == "__main__":
             
         if main_choice == 3: #3. Check Correlations 
             print(action_3)
-            correlations_matrix.corr_plot()
+            corr_plot()
 
         if main_choice == 4: #4. Examine Subjects List
             show_subjects_list()

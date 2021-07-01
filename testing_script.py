@@ -1,7 +1,10 @@
 from main_with_inputs import load_subject
+import pandas as pd
+import os
+import datetime
+from Subject import Subject
 # This test checks the validity of all eeg scoring files (containing only--1, 0, 1, 2, 3, 4)
 def test_eeg_scoring():
-
     Subjects, _ = load_subject()
     flag = False
     for sub in Subjects:
@@ -50,19 +53,6 @@ def test_Subject_class():
         flag = False
 
     assert flag
-
-def test_validity_of_over_lap_dict_input():
-    Subjects, _ = load_subject()
-    flag = False
-
-    for sub in Subjects:
-        overlap = sub.overlap
-        eeg_time = sub.EEG_start_time
-
-        if overlap not in [0, 1] or type(eeg_time) != datetime.datetime:
-            flag = True
-    assert not flag
-
 
 
 
