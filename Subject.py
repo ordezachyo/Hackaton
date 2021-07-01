@@ -43,6 +43,8 @@ class Subject(): # Object represent a single subject in the experiment
         EEG_middle_time = self.EEG_start_time + middle_time_change
         EEG_end_time = self.EEG_start_time + full_time_change
 
+        
+
         self.stat_lab = sleep_statistics(self.lab_sleep_score, self.st_lab)
         for k, v in self.stat_lab.items(): # Round all floats
             self.stat_lab[k] = round(v, 2)
@@ -62,6 +64,9 @@ class Subject(): # Object represent a single subject in the experiment
         fig.suptitle(f'Subject {self.name}')
         ax[0].plot(self.lab_sleep_score)
         ax[0].set_title('EEG binary scoring')
+        
+        plt.sca(ax[0])
+        plt.xticks([0, len(self.lab_sleep_score)/2, len(self.lab_sleep_score)],[str(self.EEG_start_time.time())[0:5],str(EEG_middle_time.time())[0:5],str(EEG_end_time.time())[0:5]])
 
         ax[0].legend([extra, extra, extra,extra,extra], (f"SE={self.stat_lab['SE']}", f"WASO={self.stat_lab['WASO']}",f'SME={self.stat_lab["SME"]}', f"TST={self.stat_lab['TST']}",f"SPT={self.stat_lab['SPT']}"), loc=1)
 
