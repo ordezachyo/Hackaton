@@ -34,5 +34,8 @@ def get_all_night_stats(Subjects, param = ['SE','WASO','SME','TST','SPT']):
         for par in param:
             overlap.at[i, par] = stats.get(par)
             overlap.at[i, 'Name'] = sub.name
+    for night in night_list:
+        night.set_index('Name', inplace=True)
+    overlap.set_index('Name', inplace=True)
 
     return night_list, overlap
