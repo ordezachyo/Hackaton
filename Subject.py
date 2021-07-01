@@ -5,6 +5,7 @@ from yasa import sleep_statistics
 import matplotlib.pyplot as plt
 from matplotlib.patches import Rectangle
 import numpy as np
+
 class Subject(): # Object represent a single subject in the experiment
 
     def __init__(self, name, overlap, EEG_start_time): #Create a subject object- name: str, overlap: binary ('XX4')

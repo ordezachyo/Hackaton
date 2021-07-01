@@ -1,10 +1,14 @@
 from Subject import *
 import datetime
 import sys
-import regression_analysis
+from regression_analysis import *
 import correlations_matrix 
 
 def load_subject():
+    '''
+    This
+    :return:
+    '''
     overlap_dict = {'AG1': [1, '23:48:00 07/25/2018'], 'CS7': [1, '21:29:00 10/23/2018'],
                     'DS6': [1, '22:41:00 08/19/2018'], 'EC0': [1, '23:54:00 08/28/2018'],
                     'EG5': [1, '23:10:00 03/04/2018'], 'HS0': [1, '23:30:00 07/17/2018'],
@@ -25,6 +29,10 @@ def load_subject():
     return Subjects, sub_list
 
 def instructions():
+    '''
+
+    :return:
+    '''
      # Setting the different messages for interacting with the user
     print("Welcome to SleSco™ !\n\n")  # Welcome message
     main_menu_prompt = ("Choose the number of the action you would you like to perform:\n\
@@ -51,6 +59,10 @@ def main_menu():
     return main_choice
 
 def plot_sleep_data():
+    '''
+
+    :return:
+    '''
     while True:
         choice_1 = (input (action_1)) # User's choice within action 1 
         if choice_1.lower() == 'quit':
@@ -72,6 +84,10 @@ def plot_sleep_data():
             continue
 
 def run_prediction_model():
+    '''
+
+    :return:None
+    '''
     regression_flag=True # tracks whether regression is completed or quit
     var_list = ['SE','WASO','SME','TST','SPT'] # possible variables to predict
     while regression_flag:
@@ -107,7 +123,7 @@ def run_prediction_model():
                     break
                 else: # good to go
                     print(f"Running linear regression to predict '{predicted.upper()}' - measured in sleep lab, using previous nights {pre_list}")
-                    regression_analysis.get_regression_analysis(pre_list,predicted.upper()) #running regression
+                    get_regression_analysis(pre_list,predicted.upper()) #running regression
                     break
             try:
                 is_pre=var_list.index(predictor.upper())
@@ -124,6 +140,10 @@ def run_prediction_model():
                 print (*var_list, sep=", ")
 
 def show_subjects_list():
+    '''
+    This function shows the subject list
+    :return:
+    '''
     while True:
         print ("Subjects list:")
         print (sub_list)
