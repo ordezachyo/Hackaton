@@ -16,8 +16,6 @@ def get_all_night_stats(Subjects, param = ['SE','WASO','SME','TST','SPT']):
     lab_eeg = pd.DataFrame(columns=param)
     overlap_night = pd.DataFrame(columns=[pre[2] + fn for fn in param]+['Name'])
 
-
-
     for i, sub in enumerate(Subjects):
         nights = sub.nights
         if sub.overlap:
@@ -61,11 +59,12 @@ def plot_regression(y, y_pred, predictors, to_predict):
     plt.show()
 
 # Regression analysis
-def get_regression_analysis(predictors, to_predict, Subjects):
+def get_regression_analysis(predictors, to_predict):
     from main_with_inputs import load_subject
     from Statistics import get_all_night_stats
     import pandas as pd
 
+    Subjects, sub_list = load_subject()
     night_list, lab_eeg, _ = get_all_night_stats(Subjects)
     pre = ['1st_', '2nd_', '3rd_']
 

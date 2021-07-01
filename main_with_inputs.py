@@ -187,7 +187,7 @@ def run_prediction_model():
                     break
                 else: # good to go
                     print(f"Running linear regression to predict '{predicted.upper()}' - measured in sleep lab, using previous nights {pre_list}")
-                    get_regression_analysis(pre_list,predicted.upper(), Subjects) #running regression
+                    get_regression_analysis(pre_list,predicted.upper()) #running regression
                     break
             try:
                 is_pre=var_list.index(predictor.upper())
@@ -233,7 +233,10 @@ if __name__ == "__main__":
             plot_sleep_data()
 
         if main_choice == 2: #2.Create Prediction Model 
-            run_prediction_model()
+            try:
+                run_prediction_model()
+            except ValueError:
+                print('Data contains Nan')
             
         if main_choice == 3: #3. Check Correlations
             check_correlations()
