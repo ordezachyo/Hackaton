@@ -7,10 +7,11 @@ from matplotlib.patches import Rectangle
 import numpy as np
 class Subject(): # Object represent a single subject in the experiment
 
-    def __init__(self,name,overlap): #Create a subject object- name: str, overlap: binary ('XX4')
+    def __init__(self,name,overlap,EEG_start_time): #Create a subject object- name: str, overlap: binary ('XX4')
 
         self.name = name
-        self.overlap = overlap # does data from the watch overlaps with data from the lab)
+        self.overlap = overlap # does data from the watch overlaps with data from the lab
+        self.EEG_start_time = EEG_start_time
         txt = [fn for fn in os.listdir('watch_data/scoring_cntrl/') if fn.split('_')[0]==self.name][0]
         self.lab_sleep_score = pd.read_csv('watch_data/scoring_cntrl/'+txt) # sleep score from the lab experiment
         self.st_lab = 1 # Hypnograph sample freq (HZ)
