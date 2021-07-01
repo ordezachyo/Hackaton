@@ -7,8 +7,44 @@ import datetime
 def find_ones(csv):
     indices = []
     copy = csv.copy()
+    nights = len(pd.unique(copy.Date))-1
     # ones_csv = copy[copy.SleSco == 1]
     drop = []
+
+    date, time = list(copy['Date'].values), list(copy['Time'].values)
+
+    for i in range(len(time)):
+        t = time[i]
+        d = date[i]
+        time[i] = int(t[:t.find(':')])
+        date[i] = int(d.split('/')[1])
+
+        date_ar = np.array(date)
+        time_ar = np.array(time)
+
+        rel_ = np.where((time_ar < 10) | (time_ar > 18))
+
+
+    start_ind = 0
+
+
+    start_hour, end_hour = 18, 10
+
+
+
+
+    start = 0
+    nights_csv = []
+    for n in range(nights):
+        inds = time.index(str(end_hour))
+        if n==0:
+            nights_csv.append(copy.iloc[0:inds])
+
+        else:
+
+            start = inds
+            time = time[inds:]
+
     flag = False
     for i, time in enumerate(copy['Time'].values):
         if time.find(':') != 1:
@@ -32,25 +68,17 @@ def find_ones(csv):
         slesco = copy.iloc[i].SleSco
         date = copy.iloc[i].Date
 
-        if slesco==1 and not flag:
+        if slesco == 1 and not flag:
             count = 0
             data_frame = pd.DataFrame(columns=copy.columns)
+            flag = True
             curr_date_init = date
             data_frame.at[count, :] = copy.iloc[i]
             count+=1
             print('')
-        else:
-            if slesco==1:
-
-
-
 
 
         print('')
-
-
-
-
 
     print('')
 
