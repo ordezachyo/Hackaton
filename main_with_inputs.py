@@ -83,6 +83,6 @@ while True:
                 Subjects.pop(is_sub)
                 continue
     if choice>4:
-        print("Sorry, I didn't understand that.")
+        print("Invalid choice. Plesase try again")
         #better try again... Return to the start of the loop
         continue 
