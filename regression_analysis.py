@@ -7,10 +7,10 @@ def plot_regression(y, y_pred, predictors, to_predict):
     from sklearn.metrics import r2_score
     r = r2_score(y, y_pred)
 
-    plt.text(0.5, 0.5, f'R squared:{round(r, 2)}',
-             horizontalalignment='center',verticalalignment='center')
-                                                                                                     'transform = ax.transAxes}')
-    plt.title(f'Predicting {to_predict} from EEG data with:{[fn for fn in predictors]}')
+    # plt.text(0.5, 0.5, f'R squared:{round(r, 2)}',
+    #          horizontalalignment='center',verticalalignment='center')
+    #                                                                                                  'transform = ax.transAxes}')
+    # plt.title(f'Predicting {to_predict} from EEG data with:{[fn for fn in predictors]}')
     plt.xlabel(f'{to_predict} Real values')
     plt.ylabel(f'{to_predict} Predicted values')
     extra = Rectangle((0, 0), 1, 1, fc="w", fill=False, edgecolor='none', linewidth=0)
