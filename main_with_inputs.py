@@ -23,24 +23,29 @@ def load_subject():
 
     return Subjects, sub_list
 
-if __name__ == "__main__":
-    Subjects, sub_list = load_subject()
-    print(f"Welcome to SleSco™ !\n\n") # Welcome message
+def start_instructions():
+    print(f"Welcome to SleSco™ !\n\n")  # Welcome message
     # Setting the different messages for interacting with the user
     main_menu = (f"Choose the number of the action you would you like to perform:\n\
-    1. Plot Sleep Data\n\
-    2. Create Prediction Model - Previous Nights -> Sleep Lab\n\
-    3. Check Motionlogger to EEG Correlation\n\
-    4. Examine Subjects List\n\n\
-    At any time, you can go back to the main menu by typing 'main' or quit typing 'quit' \n")
-    action_1=("To choose a specific subject, type his subject code\n\
-    Alternativly, type 'all' to plot all subjects\n")
-    action_2=("Choose the predicted variable:")
+        1. Plot Sleep Data\n\
+        2. Create Prediction Model - Previous Nights -> Sleep Lab\n\
+        3. Check Motionlogger to EEG Correlation\n\
+        4. Examine Subjects List\n\n\
+        At any time, you can go back to the main menu by typing 'main' or quit typing 'quit' \n")
+    action_1 = ("To choose a specific subject, type his subject code\n\
+        Alternativly, type 'all' to plot all subjects\n")
+    action_2 = ("Choose the predicted variable:")
     action_2_1 = (f"Choose predictors, seperate by pressing 'Enter'. Type 'end' to finish")
 
-    action_4=("If you would like to remove a subject, type his subject code\n\
-    Reminder - you can go back to the main menu by typing 'main' or quit by typing 'quit' \n")
+    action_4 = ("If you would like to remove a subject, type his subject code\n\
+        Reminder - you can go back to the main menu by typing 'main' or quit by typing 'quit' \n")
     reminder = ("Reminder - you can go back to the main menu by typing 'main' or quit by typing 'quit' ")
+    return main_menu, action_1, action_2, action_2_1, action_4, reminder
+
+if __name__ == "__main__":
+    Subjects, sub_list = load_subject()
+    main_menu, action_1, action_2, action_2_1, action_4, reminder = start_instructions()
+
     while True:
         main_choice = (input (main_menu))
         if main_choice.lower() == 'quit':
@@ -72,11 +77,12 @@ if __name__ == "__main__":
                     continue
                 else:
                     Subjects[is_sub].plot_sleep_scores()
-                    plt.show()
                     continue
+
         if main_choice == 2:
             regression_flag=True
             var_list = ['SE','WASO','SME','TST','SPT']
+
             while regression_flag:
                 print (action_2)
                 print (*var_list, sep="/")
@@ -91,7 +97,7 @@ if __name__ == "__main__":
                     print ("No such variable found. Please try again.")
                     continue
                 else:
-                    is_var=var_list.index('SE')
+                    is_var = var_list.index('SE')
                     var_list.pop(is_var)
                 print (action_2_1)
                 print (*var_list, sep=", ")
