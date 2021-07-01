@@ -78,9 +78,12 @@ def get_regression_analysis(predictors, to_predict, Subjects):
     y = lab_eeg[to_predict]
 
     from sklearn.linear_model import LinearRegression
-    reg = LinearRegression().fit(pred, y)
-    y_pred = reg.predict(pred)
 
+    try:
+        reg = LinearRegression().fit(pred, y)
+        y_pred = reg.predict(pred)
+    except ValueError:
+        print('Data contains Nan')
     plot_regression(y, y_pred, predictors, to_predict)
 
 # Correlations analysis
