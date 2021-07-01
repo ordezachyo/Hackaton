@@ -1,10 +1,8 @@
-from Subject import Subject
 import sys
-import os
-from correlations_matrix import *
+from Statistics import *
 import datetime
 import matplotlib.pyplot as plt
-from regression_analysis import *
+
 
 def load_subject():
     '''
