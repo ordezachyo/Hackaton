@@ -24,8 +24,8 @@ def load_subject():
     return Subjects, sub_list
 
 def instructions():
+     # Setting the different messages for interacting with the user
     print(f"Welcome to SleSco™ !\n\n")  # Welcome message
-    # Setting the different messages for interacting with the user
     main_menu = (f"Choose the number of the action you would you like to perform:\n\
         1. Plot Sleep Data\n\
         2. Create Prediction Model - Previous Nights -> Sleep Lab\n\
@@ -36,7 +36,6 @@ def instructions():
         Alternativly, type 'all' to plot all subjects\n")
     action_2 = ("Choose the predicted variable:")
     action_2_1 = (f"Choose predictors, seperate by pressing 'Enter'. Type 'end' to finish")
-
     action_4 = ("If you would like to remove a subject, type his subject code\n\
         Reminder - you can go back to the main menu by typing 'main' or quit by typing 'quit' \n")
     reminder = ("Reminder - you can go back to the main menu by typing 'main' or quit by typing 'quit' ")
@@ -47,7 +46,7 @@ if __name__ == "__main__":
     main_menu, action_1, action_2, action_2_1, action_4, reminder = instructions()
 
     while True:
-        main_choice = (input (main_menu))
+        main_choice = (input (main_menu)) # User's choice for main menu
         if main_choice.lower() == 'quit':
             sys.exit("App Quit. Goodbye!")
         elif main_choice.lower() == 'main':
@@ -58,9 +57,9 @@ if __name__ == "__main__":
             print("Sorry, I didn't understand that.")
             #better try again... Return to the start of the loop
             continue
-        if main_choice == 1:
+        if main_choice == 1: # 1.plot sleep data
             while True:
-                choice_1 = (input (action_1))
+                choice_1 = (input (action_1)) # User's choice within action 1 
                 if choice_1.lower() == 'quit':
                     sys.exit("App Quit. Goodbye!")
                 elif choice_1.lower() == 'main':
@@ -79,9 +78,9 @@ if __name__ == "__main__":
                     Subjects[is_sub].plot_sleep_scores()
                     continue
 
-        if main_choice == 2:
-            regression_flag=True
-            var_list = ['SE','WASO','SME','TST','SPT']
+        if main_choice == 2: #2.Create Prediction Model 
+            regression_flag=True # tracks whether regression is completed or quit
+            var_list = ['SE','WASO','SME','TST','SPT'] # possible variables to predict
 
             while regression_flag:
                 print (action_2)
@@ -98,10 +97,10 @@ if __name__ == "__main__":
                     continue
                 else:
                     is_var = var_list.index('SE')
-                    var_list.pop(is_var)
+                    var_list.pop(is_var)  # possible predictor variables - SE not included
                 print (action_2_1)
                 print (*var_list, sep=", ")
-                pre_list = []
+                pre_list = [] # chosen predictors list
                 while True:
                     predictor=input()
                     if predictor.lower() == 'quit':
@@ -109,14 +108,14 @@ if __name__ == "__main__":
                     elif predictor.lower() == 'main':
                         regression_flag = False
                         break
-                    elif predictor.lower()=='end':
-                        regression_flag = False
-                        if len(pre_list)==0:
+                    elif predictor.lower()=='end': # user is ready to run regression
+                        regression_flag = False # ready to go back to main menu soon 
+                        if len(pre_list)==0: # regression quit
                             print('No predictors given. Returning to main menu')
                             break
-                        else:
+                        else: # good to go
                             print(f"Running linear regression to predict '{predicted.upper()}' - measured in sleep lab, using previous nights {pre_list}")
-                            regression_analysis.get_regression_analysis(pre_list,predicted.upper())
+                            regression_analysis.get_regression_analysis(pre_list,predicted.upper()) #running regression
                             break
                     try:
                         is_pre=var_list.index(predictor.upper())
@@ -132,7 +131,7 @@ if __name__ == "__main__":
                         print ("Choose another predictor or type 'end' to run regression")
                         print (*var_list, sep=", ")
 
-        if main_choice == 4:
+        if main_choice == 4: #4. Examine Subjects List
             while True:
                 print ("Subjects list:")
                 print (sub_list)
