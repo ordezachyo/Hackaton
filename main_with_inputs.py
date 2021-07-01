@@ -72,7 +72,7 @@ if __name__ == "__main__":
                         plt.show()
                         print (reminder)
                 try:
-                    is_sub=sub_list.index(choice_1)
+                    is_sub=sub_list.index(choice_1.upper())
                 except:
                     print ("Subject not found. Please try again.")
                     continue
