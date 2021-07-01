@@ -21,9 +21,9 @@ def load_subject():
                     'MK2': [1, '22:32:00 11/19/2018'], 'NS6': [0, '00:22:00 03/19/2018'],
                     'RP8': [1, '22:15:00 02/23/2018'], 'TN8': [1, '00:54:00 01/16/2018'],
                     'TR3': [1, '23:53:00 10/14/2018'], 'TZ7': [1, '23:53:00 04/10/2018']}
+
     # Is there an overlap actigraph recording for the sleep lab recording?
     sub_list = [fn.split('_')[0] for fn in os.listdir('CSVs')]
-
     date_format_string = "%H:%M:%S %m/%d/%Y"
     Subjects = []
 
