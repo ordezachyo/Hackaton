@@ -6,7 +6,7 @@ _Creating the data files_
 1. **EEG Scoring data files should be in the following format:** ‘’subject’s initials’_hypnoWholeFile_revised.txt’ and be saved inside a file called ‘scoring_cntrl’ in ‘watch_data’.
 2. **Actiograph scoring data files should be produced by ‘action4’ program:** ’sleep’> ’Automatic scoring’> save channel as ‘SleSco’ then ‘file’>’export data’ and save beginning with the subject’s initials in ‘CSVs’ folder.
 
-_provising subjects data into dictionary_
+_provising subjects data into dictionary_<br />
 the user has to submit whether there was an overlaping night, and date and time of EEG recording in lab in the '_dict' variable in 'main.py'
 1. If the EEG recording night in the lab included a watch measurment, first value in the list attributed to the subject should be '1', otherwhise, enter '0'.
 2. second value in the list should be in the following format: "%H:%M:%S %m/%d/%Y". For example, 00:15:00 07/02/2018.
