@@ -1,4 +1,4 @@
-from Subject import *
+import Subject
 from main_with_inputs import load_subject
 import datetime
 

@@ -1,5 +1,4 @@
-from Subject import *
-import datetime
+import Subject
 import sys
 from regression_analysis import *
 import correlations_matrix 
