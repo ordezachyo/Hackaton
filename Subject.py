@@ -17,7 +17,9 @@ class Subject(): # Object represent a single subject in the experiment
         self.EEG_start_time = EEG_start_time
 
         txt = [fn for fn in os.listdir('watch_data/scoring_cntrl/') if fn.split('_')[0]==self.name and fn.find('description')==-1][0]
-        lab_sleep_score = pd.read_csv('watch_data/scoring_cntrl/'+txt) # sleep score from the lab experiment
+        try:
+            lab_sleep_score = pd.read_csv('watch_data/scoring_cntrl/'+txt) # sleep score from the lab experiment
+        raise ValueError
         lab_sleep_score_flat = lab_sleep_score.replace([2, 3, 4], 1)
 
         self.lab_sleep_score = pd.DataFrame.to_numpy(lab_sleep_score_flat.replace(-1, np.nan)).squeeze()
