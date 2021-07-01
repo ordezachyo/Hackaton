@@ -62,11 +62,14 @@ def corr_lab_night():
     df_all.rename( columns ={'SE' : 'EEG_SE', 'SME' :'EEG_SME','TST':'EEG_TST','SPT':'EEG_SPT','WASO':'EEG_WASO'}, inplace=True)
     corr_matrix = df_all.astype(float).corr()
 
-    fig, ax = plt.subplots(figsize=(12, 9))
-    fig.suptitle('Correlation Matrix of Lab Night')
+    fig, ax = plt.subplots(figsize=(9, 9))
+    fig.suptitle('Correlation between EEG and watch on Lab-night', fontsize='16')
     sns.set(font_scale=1)
     sns.heatmap(corr_matrix, annot=True,annot_kws = {"size": 10},cmap = 'coolwarm')
     plt.show()
+
+if __name__ == "__main__":
+    corr_plot()
 
 
 
