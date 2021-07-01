@@ -63,7 +63,7 @@ def main_menu():
     This function responds to the instruction 'quit'
 
     :return:
-    This function contains the user's choice for main menu
+    main_choice - user's choice for main menu
     '''
     main_choice = (input (main_menu_prompt)) # User's choice for main menu
     if main_choice.lower() == 'quit':
@@ -75,7 +75,7 @@ def plot_sleep_data():
     '''
     This function plots sleep data for subject\s according to user's request
     :return:
-    Figure plot of subject's sleep scoring
+    None
     '''
     while True:
         choice_1 = (input (action_1)) # User's choice within action 1 
@@ -88,14 +88,15 @@ def plot_sleep_data():
                 sub.plot_sleep_scores()
                 plt.show()
             print (reminder)
-        try:
-            is_sub = sub_list.index(choice_1.upper())
-        except:
-            print ("Subject not found. Please try again.")
-            continue
         else:
-            Subjects[is_sub].plot_sleep_scores()
-            continue
+            try:
+                is_sub=sub_list.index(choice_1.upper())
+            except:
+                print ("Subject not found. Please try again.")
+                continue
+            else:
+                Subjects[is_sub].plot_sleep_scores()
+                continue
 
 def run_prediction_model():
     '''
@@ -157,8 +158,7 @@ def run_prediction_model():
 def show_subjects_list():
     '''
     This function shows the subject list
-    :return:
-    List of subjects
+    :return: None
     '''
     while True:
         print("Subjects list:")
