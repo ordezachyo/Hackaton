@@ -6,8 +6,11 @@ import correlations_matrix
 
 def load_subject():
     '''
-    This
+    This function appends to subjects their CSV files with actigraph data, and information about
+    overlaping nights (actigraph+EEG data), hour& date of EEG recording nights at the lab  
     :return:
+    Class subjects with full information (actigraph, EEG data, all hours and dates) and a list of CSV 
+    files containing actigraph data.
     '''
     overlap_dict = {'AG1': [1, '23:48:00 07/25/2018'], 'CS7': [1, '21:29:00 10/23/2018'],
                     'DS6': [1, '22:41:00 08/19/2018'], 'EC0': [1, '23:54:00 08/28/2018'],
@@ -30,8 +33,9 @@ def load_subject():
 
 def instructions():
     '''
-
+    This function contains all the instructions by our UI.
     :return:
+    Different strings with instructions for different options to analyse the data.
     '''
      # Setting the different messages for interacting with the user
     print("Welcome to SleSco™ !\n\n")  # Welcome message
@@ -52,6 +56,12 @@ def instructions():
     return main_menu_prompt, action_1, action_2, action_2_1,action_3, action_4, reminder
 
 def main_menu():
+    '''
+    This function responds to the instruction 'quit'
+
+    :return:
+    This function contains the user's choice for main menu
+    '''
     main_choice = (input (main_menu_prompt)) # User's choice for main menu
     if main_choice.lower() == 'quit':
         sys.exit("App Quit. Goodbye!")
@@ -60,8 +70,9 @@ def main_menu():
 
 def plot_sleep_data():
     '''
-
+    This function plots sleep data for subject\s according to user's request
     :return:
+    Figure plot of subject's sleep scoring
     '''
     while True:
         choice_1 = (input (action_1)) # User's choice within action 1 
