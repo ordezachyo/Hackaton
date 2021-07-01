@@ -73,6 +73,8 @@ class Subject(): # Object represent a single subject in the experiment
           else:
               ax[night].set_title(f'{night}{suf[night-1]} Night (Watch)')
 
+          plt.sca(ax[night])
+          plt.xticks([0, int(len(self.nights[night-1])/2), len(self.nights[night-1])], [self.nights[night-1].iloc[0].Time[:-3], self.nights[night-1].iloc[int(len(self.nights[night-1])/2)].Time[:-3], self.nights[night-1].iloc[-1].Time[:-3]])
           # plt.setp(ax[night], xticks=[0, int(len(self.nights[night-1])/2), self.nights[night-1]], xlabels=[self.nights[night-1].iloc[0].Time, self.nights[night-1].iloc[int(len(self.nights[night-1])/2)].Time, self.nights[night-1].iloc[-1].Time])
 
         plt.setp(ax, yticks=[0, 1])

@@ -6,17 +6,15 @@ import matplotlib.pyplot as plt
 
 
 Subjects = []
-overlap_dict={'AG1': 1, 'CS7':1, 'DS6':1, 'EC0':1, 'EG5':1, 'HS0':1, 'JR9':1, 'ME5':0,
-              'MK2':1, 'NS6':0,'RP8':1, 'TN8':1, 'TR3':1, 'TZ7':1} # Is there an overlap actigraph recording for the sleep lab recording?
+overlap_dict={'AG1': [1,'23:48:00'], 'CS7':[1,'21:29:00'], 'DS6':[1,'22:41:00'], 'EC0':[1,'23:54'], 'EG5':[1,'23:10:00'],
+              'HS0':[1,'23:30:00'], 'JR9':[1,'22:48:00'], 'ME5':[0,'23:46:00'], 'MK2':[1,'22:32:00'], 'NS6':[0,'24:22:00'],'RP8':[1,'22:15:00'], 'TN8':[1,'24:54:00'], 'TR3':[1,'23:53:00'], 'TZ7':[1,'23:53:00']}
+# Is there an overlap actigraph recording for the sleep lab recording?
 sub_list = [fn.split('_')[0] for fn in os.listdir('CSVs')]
 
-subject = Subject(sub_list[5],overlap_dict.get(sub_list[5]))
-subject.plot_sleep_scores()
 for sub in sub_list:
     overlap = overlap_dict.get(sub)
     Subjects.append(Subject(sub,overlap))
 
-print('h')
 
 for sub in Subjects:
     sub.plot_sleep_scores()
