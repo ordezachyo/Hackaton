@@ -18,8 +18,8 @@ def load_subject():
                     'TR3': [1, '23:53:00 10/14/2018'], 'TZ7': [1, '23:53:00 04/10/2018']}
 
     sub_list = [fn.split('_')[0] for fn in os.listdir('CSVs')]
-
     date_format_string = "%H:%M:%S %m/%d/%Y"
+    Subjects = []
 
     for sub in sub_list:
         overlap = (overlap_dict.get(sub))[0]
@@ -28,78 +28,78 @@ def load_subject():
 
     return Subjects, sub_list
 
+if __name__ == "__main__":
 
-print('Loading...')
-Subjects = []
+    print('Loading...')
 
-# Is there an overlap actigraph recording for the sleep lab recording?
+    # Is there an overlap actigraph recording for the sleep lab recording?
 
-Subjects, sub_list = load_subject(overlap_dict)
+    Subjects, sub_list = load_subject()
 
-print(f"Welcome to SleSco™ !\n\n")
-main_menu = (f"Choose the number of the action you would you like to perform:\n\
-1. Plot Sleep Data\n\
-2. Create Prediction Model - Previous Nights -> Sleep Lab\n\
-3. Check Motionlogger to EEG Correlation\n\
-4. Examine Subjects List\n\n\
-At any time, you can go back to the main menu by typing 'main' or quit typing 'quit' \n")
-action_1=("To choose a specific subject, type his subject code\n\
-Alternativly, type 'all' to plot all subjects\n")
-action_4=("If you would like to remove a subject, type his subject code\n\
-Reminder - you can go back to the main menu by typing 'main' or quit by typing 'quit' \n")
-reminder = ("Reminder - you can go back to the main menu by typing 'main' or quit by typing 'quit' ")
-while True:
-    choice = (input (main_menu))
-    if choice == 'quit':
-        sys.exit("App Quit. Goodbye!")
-    elif choice == 'main':
-        continue
-    try:
-        choice = int (choice)
-    except ValueError:
-        print("Sorry, I didn't understand that.")
-        #better try again... Return to the start of the loop
-        continue       
-    if choice == 1:
-        while True:
-            choice = (input (action_1))
-            if choice == 'quit':
-                sys.exit("App Quit. Goodbye!")
-            elif choice == 'main':
-                break
-            elif choice == 'all':
-                for sub in Subjects:
-                    sub.plot_sleep_scores()
+    print(f"Welcome to SleSco™ !\n\n")
+    main_menu = (f"Choose the number of the action you would you like to perform:\n\
+    1. Plot Sleep Data\n\
+    2. Create Prediction Model - Previous Nights -> Sleep Lab\n\
+    3. Check Motionlogger to EEG Correlation\n\
+    4. Examine Subjects List\n\n\
+    At any time, you can go back to the main menu by typing 'main' or quit typing 'quit' \n")
+    action_1=("To choose a specific subject, type his subject code\n\
+    Alternativly, type 'all' to plot all subjects\n")
+    action_4=("If you would like to remove a subject, type his subject code\n\
+    Reminder - you can go back to the main menu by typing 'main' or quit by typing 'quit' \n")
+    reminder = ("Reminder - you can go back to the main menu by typing 'main' or quit by typing 'quit' ")
+    while True:
+        choice = (input (main_menu))
+        if choice == 'quit':
+            sys.exit("App Quit. Goodbye!")
+        elif choice == 'main':
+            continue
+        try:
+            choice = int (choice)
+        except ValueError:
+            print("Sorry, I didn't understand that.")
+            #better try again... Return to the start of the loop
+            continue
+        if choice == 1:
+            while True:
+                choice = (input (action_1))
+                if choice == 'quit':
+                    sys.exit("App Quit. Goodbye!")
+                elif choice == 'main':
+                    break
+                elif choice == 'all':
+                    for sub in Subjects:
+                        sub.plot_sleep_scores()
+                        plt.show()
+                        print (reminder)
+                try:
+                    is_sub=sub_list.index(choice)
+                except:
+                    print ("Subject not found. Please try again.")
+                    continue
+                else:
+                    Subjects[is_sub].plot_sleep_scores()
                     plt.show()
-                    print (reminder)
-            try:
-                is_sub=sub_list.index(choice)
-            except:
-                print ("Subject not found. Please try again.")
-                continue
-            else:
-                Subjects[is_sub].plot_sleep_scores()
-                plt.show()
-                continue
-    if choice == 4:
-        while True:
-            print ("Subjects list:")
-            print (sub_list)
-            choice = (input (action_4))
-            if choice == 'quit':
-                sys.exit("App Quit. Goodbye!")
-            elif choice == 'main':
-                break
-            try:
-                is_sub=sub_list.index(choice)
-            except:
-                print ("Subject not found. Please try again.")
-                continue
-            else:
-                sub_list.pop(is_sub)
-                Subjects.pop(is_sub)
-                continue
-    if choice>4:
-        print("Invalid choice. Plesase try again")
-        #better try again... Return to the start of the loop
-        continue 
+                    continue
+        if choice == 4:
+            while True:
+                print ("Subjects list:")
+                print (sub_list)
+                choice = (input (action_4))
+                if choice == 'quit':
+                    sys.exit("App Quit. Goodbye!")
+                elif choice == 'main':
+                    break
+                try:
+                    is_sub=sub_list.index(choice)
+                except:
+                    print ("Subject not found. Please try again.")
+                    continue
+                else:
+                    sub_list.pop(is_sub)
+                    Subjects.pop(is_sub)
+                    continue
+        if choice>4:
+            print("Invalid choice. Plesase try again")
+            #better try again... Return to the start of the loop
+            continue
