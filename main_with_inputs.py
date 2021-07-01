@@ -6,7 +6,7 @@ import correlations_matrix
 def load_subject():
     '''
     This function appends to subjects their CSV files with actigraph data, and information about
-    overlaping nights (actigraph+EEG data), hour& date of EEG recording nights at the lab  
+    overlaping nights (actigraph+EEG data), hour & date of EEG recording nights at the lab  
     :return:
     Class subjects with full information (actigraph, EEG data, all hours and dates) and a list of CSV 
     files containing actigraph data.
