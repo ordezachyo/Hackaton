@@ -2,7 +2,7 @@ from Subject import *
 import datetime
 import sys
 import regression_analysis
-import correlation_matrix
+# import correlation_matrix
 
 def load_subject():
     overlap_dict = {'AG1': [1, '23:48:00 07/25/2018'], 'CS7': [1, '21:29:00 10/23/2018'],

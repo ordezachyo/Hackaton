@@ -7,13 +7,16 @@ from matplotlib.patches import Rectangle
 import numpy as np
 class Subject(): # Object represent a single subject in the experiment
 
-    def __init__(self,name,overlap,EEG_start_time): #Create a subject object- name: str, overlap: binary ('XX4')
+    def __init__(self, name, overlap, EEG_start_time): #Create a subject object- name: str, overlap: binary ('XX4')
+
+        if type(name)!=str or overlap not in [0, 1] or type(EEG_start_time)!=datetime.datetime:
+            raise ValueError
 
         self.name = name
         self.overlap = overlap # does data from the watch overlaps with data from the lab
         self.EEG_start_time = EEG_start_time
-        txt = [fn for fn in os.listdir('watch_data/scoring_cntrl/') if fn.split('_')[0]==self.name and fn.find('description')==-1][0]
 
+        txt = [fn for fn in os.listdir('watch_data/scoring_cntrl/') if fn.split('_')[0]==self.name and fn.find('description')==-1][0]
         lab_sleep_score = pd.read_csv('watch_data/scoring_cntrl/'+txt) # sleep score from the lab experiment
         lab_sleep_score_flat = lab_sleep_score.replace([2, 3, 4], 1)
 
@@ -24,25 +27,15 @@ class Subject(): # Object represent a single subject in the experiment
 
         csv_name = [fn for fn in os.listdir('CSVs') if fn.split('_')[0] == self.name][0]
         csv = pd.read_csv('CSVs/' + csv_name)
-        self.actigraph = csv[['Date', 'Time', 'SleSco']]  # keep only the relevent fields
+        self.actigraph = csv[['Date', 'Time', 'SleSco']]  # keep only the relevant fields
 
         self.nights = self.extract_night()
 
-
-
     def plot_sleep_scores(self):
         '''
-        Plots s
+        # This function calculate statistics for both lab and watch data, then plots it nicely
         :return:
         '''
-        # This function calculate statistics for both lab and watch data, then plots it nicely
-
-        # lab_sleep_score_flat = pd.DataFrame.to_numpy(lab_sleep_score_flat).squeeze()
-
-        #-------------------------------------------------------
-
-        # param = ['SE','WASO','SME','TST','SPT'] # staistic parameters to keep
-
         # Calculates the middle and end time of the EEG recording
         full_time_change = datetime.timedelta(seconds = len(self.lab_sleep_score))
         middle_time_change = datetime.timedelta(seconds = (len(self.lab_sleep_score))/2)
