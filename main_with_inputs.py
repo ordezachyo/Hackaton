@@ -200,8 +200,11 @@ def run_prediction_model():
             else:
                 pre_list.append(predictor.upper())
                 var_list.pop(is_pre)
-                print ("Choose another predictor or type 'end' to run regression")
-                print (*var_list, sep=", ")
+                if len(var_list)==0:
+                    print("No predictors left. Type 'end' to run regression")
+                else:
+                    print ("Choose another predictor or type 'end' to run regression")
+                    print (*var_list, sep=", ")
 
 def show_subjects_list(Subjects):
     '''
