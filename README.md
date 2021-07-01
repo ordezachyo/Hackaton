@@ -17,7 +17,7 @@ _Our predicting parameters:_<br />
 **Total Sleep Time (TST):** SPT - WASO.<br />
 **Sleep Maintenance Efficiency (SME):** TST / SPT * 100 (%).
 
-_Our scripts_
+_Our scripts_<br />
 **main_with_inputs:** Our main script 
 1. Appends to subjects their CSV files with actigraph data 
 2. Adds information about overlaping nights (actigraph+EEG data), hour & date of EEG recording nights at the lab 
