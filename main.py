@@ -12,9 +12,9 @@ overlap_dict={'AG1': [1,'23:48:00'], 'CS7':[1,'21:29:00'], 'DS6':[1,'22:41:00'],
 sub_list = [fn.split('_')[0] for fn in os.listdir('CSVs')]
 
 for sub in sub_list:
-    overlap = (overlap_dict.get(sub)).get(0))
-    EEG_start_time = (overlap_dict.get(sub)).get(1))
-    Subjects.append(Subject(sub,overlap))
+    overlap = (overlap_dict.get(sub))[0]
+    EEG_start_time = (overlap_dict.get(sub))[1]
+    Subjects.append(Subject(sub,overlap, EEG_start_time))
 
 
 for sub in Subjects:
