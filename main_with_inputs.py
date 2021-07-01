@@ -94,6 +94,7 @@ if __name__ == "__main__":
                     print ("No such variable found. Please try again.")
                     continue
                 else:
+                    is_var=var_list.index('SE')
                     var_list.pop(is_var)
                 print (action_2_1)
                 print (*var_list, sep=", ")
