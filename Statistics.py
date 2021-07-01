@@ -2,7 +2,7 @@ from Subject import *
 import matplotlib.pyplot as plt
 from main_with_inputs import load_subject
 
-def get_all_night_stats(Subjects, param):
+def get_all_night_stats(Subjects, param = ['SE','WASO','SME','TST','SPT']):
     pre = ['1st_', '2nd_', '3rd_']
     # A list of all nights with watch features CSVs
     # The overlap night features csv

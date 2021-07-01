@@ -19,7 +19,7 @@ def get_regression_analysis(predictors, to_predict, param = ['SE','WASO','SME','
             fin_pred.append(val+j)
 
     pred = pd.concat([night_list[0], night_list[1]], axis=1)[fin_pred]
-    y = overlap['to_predict']
+    y = overlap[to_predict]
 
     from sklearn.linear_model import LinearRegression
     reg = LinearRegression().fit(pred, y)
@@ -30,12 +30,12 @@ def get_regression_analysis(predictors, to_predict, param = ['SE','WASO','SME','
     from sklearn.metrics import r2_score
     r = r2_score(y, y_pred)
     plt.text(60, 90, f'R squared:{round(r, 2)}')
-    # plt.title(F{'')
+    plt.title(f'Predicting {to_predict}-lab from: {[fn for fn in predictors]}')
     plt.show()
 
 
     print('')
 
 if __name__ == "__main__":
-    get_regression_analysis(['SE','WASO'], 'TST')
+    get_regression_analysis(['WASO'], 'SE')
 
