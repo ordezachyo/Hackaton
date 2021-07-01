@@ -1,6 +1,3 @@
-import matplotlib.pyplot as plt
-import pandas as pd
-import numpy as np
 from Subject import *
 import datetime
 import sys
