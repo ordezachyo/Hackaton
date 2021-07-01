@@ -39,4 +39,4 @@ def get_all_night_stats(Subjects, param = ['SE','WASO','SME','TST','SPT']):
         night.set_index('Name', inplace=True)
     lab_eeg.set_index('Name', inplace=True)
 
-    return night_list, overlap
+    return night_list, lab_eeg, overlap_night
