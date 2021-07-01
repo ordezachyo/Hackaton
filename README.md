@@ -1,4 +1,4 @@
-# Hackathon
+# Hackaton
 **Comparing sleep patterns as measured in actigraphy versus EEG**<br />
 _Our goal is to create an application that recieves actigraph data and uses it to predict sleep quality, as represented by EEG data, in the following night_   
 
@@ -16,3 +16,20 @@ _Our predicting parameters:_<br />
 **Wake After Sleep Onset (WASO):** duration of wake periods within SPT.<br />
 **Total Sleep Time (TST):** SPT - WASO.<br />
 **Sleep Maintenance Efficiency (SME):** TST / SPT * 100 (%).
+
+_Our scripts_
+**main_with_inputs:** Our main script 
+1. Appends to subjects their CSV files with actigraph data 
+2. Adds information about overlaping nights (actigraph+EEG data), hour & date of EEG recording nights at the lab 
+3. Contains all the instructions by our UI
+4. Plots sleep data for subject\s according to user's request
+5. Creats a prediction model for EEG data by actigraph based on chosen sleep 
+    parameters
+6. Creats a correlation matrix
+7. Shows the subject list
+
+**Statistics** Pulls the data (sleep parameters from yasa) and plots the correlation matrix. Calculates regression model.
+
+**Subject** Creats a class Subject that integrates all of each subject's data. 
+
+**testing_script** Includes tests to assure the code's validity
