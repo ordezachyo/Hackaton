@@ -40,7 +40,7 @@ class Subject(): # Object represent a single subject in the experiment
         self.num_night_watch = len(self.nights)
         self.stat_watch = [] # list of dicts - each dict represent the statistics of a single watch night
         for night in range(0,self.num_night_watch): # for each watch night
-            self.stat_watch.append(sleep_statistics(self.nights[night]['SleSco'] , self.st_watch)) # cal statistics
+            self.stat_watch.append(sleep_statistics(self.nights[night]['SleSco'], self.st_watch)) # cal statistics
 
         for d in self.stat_watch: # Round all floats
             for k, v in d.items():
@@ -68,8 +68,12 @@ class Subject(): # Object represent a single subject in the experiment
           f"SE={self.stat_watch[night-1]['SE']}", f"WASO={self.stat_watch[night-1]['WASO']}", f'SME={self.stat_watch[night-1]["SME"]}',
           f"TST={self.stat_watch[night-1]['TST']}", f"SPT={self.stat_watch[night-1]['SPT']}"), loc=1)
 
-          ax[night].set_title(f'{night}{suf[night-1]} Night (Watch)')
-          plt.setp(ax[night], yticks=[0, int(len(self.nights[night-1])/2), self.nights[night-1]], ylabels=[self.nights[night-1].iloc[0].Time, self.nights[night-1].iloc[int(len(self.nights[night-1])/2)].Time, self.nights[night-1].iloc[-1].Time])
+          if self.overlap and night==len(self.nights):
+              ax[night].set_title(f'{night}{suf[night - 1]} Overlap Night (Watch)')
+          else:
+              ax[night].set_title(f'{night}{suf[night-1]} Night (Watch)')
+
+          # plt.setp(ax[night], xticks=[0, int(len(self.nights[night-1])/2), self.nights[night-1]], xlabels=[self.nights[night-1].iloc[0].Time, self.nights[night-1].iloc[int(len(self.nights[night-1])/2)].Time, self.nights[night-1].iloc[-1].Time])
 
         plt.setp(ax, yticks=[0, 1])
           # plt.setp(ax[1:], xticks=[0, 1])
@@ -158,12 +162,7 @@ class Subject(): # Object represent a single subject in the experiment
         for i, df in enumerate(dfs):
             sleep_start, sleep_end = np.where(df.SleSco)[0][0], np.where(df.SleSco)[0][-1]
             dfs[i] = df.iloc[sleep_start:sleep_end + 1]
-        
-        # Extracts the overlapping night
-        overlap_night =[]
-        if self.overlap:
-            overlap_night=dfs.pop()
-            return dfs,overlap_night
+
         return dfs 
 
 
