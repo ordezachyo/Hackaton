@@ -47,11 +47,7 @@ def main_menu():
     main_choice = (input (main_menu_prompt)) # User's choice for main menu
     if main_choice.lower() == 'quit':
         sys.exit("App Quit. Goodbye!")
-    try:
-        main_choice = int (main_choice)
-    except ValueError:
-        print("Sorry, I didn't understand that.")
-        #better try again... Return to the start of the loop
+    
     return main_choice
 
 def plot_sleep_data():
@@ -152,6 +148,16 @@ if __name__ == "__main__":
 
     while True:
         main_choice=main_menu()
+
+        if main_choice == 'main':
+            continue
+
+        try:
+            main_choice = int (main_choice)
+        except ValueError:
+            print("Sorry, I didn't understand that.")
+            #better try again... Return to the start of the loop
+            continue
         
         if main_choice == 1: # 1.plot sleep data
             plot_sleep_data()
@@ -169,4 +175,4 @@ if __name__ == "__main__":
         if main_choice>4 or main_choice<=0: # input is integer but out of range
             print("Sorry, I didn't understand that.")
             #better try again... Return to the start of the loop
-
+        
