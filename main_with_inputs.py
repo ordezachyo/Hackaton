@@ -64,10 +64,10 @@ def instructions():
     action_3 = ("Which correlation would you like to check?\n\
         1. Previous nights means (Motionlogger watch) to sleep lab night recording (EEG)\n\
         2. Motionlogger to EEG - within sleep lab night recording\n\
-        3. Motionlogger watch data - 1st to 2nd night recordings ")
+        3. Motionlogger watch data - 1st to 2nd night recordings\n ")
     action_3_1 = ("Creating correlation matrix - Previous Nights -> Sleep Lab")
     action_3_2 = ("Creating correlation matrix - Within Sleep Lab")
-    action_3_3 = ("Creating correlation matrix - Within Motionlogger watch'")
+    action_3_3 = ("Creating correlation matrix - Within Motionlogger watch")
     action_4 = ("If you would like to remove a subject, type his subject code\n\
         Reminder - you can go back to the main menu by typing 'main' or quit by typing 'quit' \n")
     reminder = ("Reminder - you can go back to the main menu by typing 'main' or quit by typing 'quit'\n ")
