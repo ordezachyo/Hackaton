@@ -38,25 +38,29 @@ def instructions():
     '''
     This function contains all the instructions by our UI.
     :return:
-    Different strings with instructions for different options to analyse the data.
+    Different string variables with instructions for different options to analyse the data.
     '''
      # Setting the different messages for interacting with the user
     print("Welcome to SleSco™ !\n\n")  # Welcome message
     main_menu_prompt = ("Choose the number of the action you would you like to perform:\n\
         1. Plot Sleep Data\n\
         2. Create Prediction Model - Previous Nights -> Sleep Lab\n\
-        3. Check Correlations - All Parameters\n\
+        3. Check Correlations\n\
         4. Examine Subjects List\n\n\
         At any time, you can go back to the main menu by typing 'main' or quit typing 'quit' \n")
     action_1 = ("To choose a specific subject, type his subject code\n\
         Alternativly, type 'all' to plot all subjects\n")
     action_2 = ("Choose the predicted variable:")
     action_2_1 = ("Choose predictors, seperate by pressing 'Enter'. Type 'end' to finish")
-    action_3 = ("Creating correlation matrix")
+    action_3 = ("Which correlations would you like to check?\n\
+        1. Previous nights recordings (Motionlogger watch) to sleep lab night recording (EEG)\n\
+        2. Motionlogger to EEG - within sleep lab night recording\n")
+    action_3_1 = ("Creating correlation matrix - Previous Nights -> Sleep Lab")
+    action_3_2 = ("Creating correlation matrix - Within Sleep Lab")
     action_4 = ("If you would like to remove a subject, type his subject code\n\
         Reminder - you can go back to the main menu by typing 'main' or quit by typing 'quit' \n")
     reminder = ("Reminder - you can go back to the main menu by typing 'main' or quit by typing 'quit' ")
-    return main_menu_prompt, action_1, action_2, action_2_1,action_3, action_4, reminder
+    return main_menu_prompt, action_1, action_2, action_2_1,action_3,action_3_1,action_3_2, action_4, reminder
 
 def main_menu():
     '''
@@ -97,6 +101,28 @@ def plot_sleep_data():
             else:
                 Subjects[is_sub].plot_sleep_scores()
                 continue
+
+def check_correlations():
+    while True:
+        choice_3=input(action_3)
+        if choice_3.lower() == 'quit':
+            sys.exit("App Quit. Goodbye!")
+        elif choice_3.lower() == 'main':
+            break
+        try:
+            choice_3 = int (choice_3)
+        except ValueError:
+            print("Sorry, I didn't understand that.")
+            #better try again... Return to the start of the loop
+            continue
+        if choice_3 == 1:
+            corr_plot()
+        if choice_3 == 2:
+            corr_lab_night()
+        else: 
+            print("Sorry, I didn't understand that.")
+            #better try again... Return to the start of the loop
+            continue
 
 def run_prediction_model():
     '''
@@ -180,7 +206,7 @@ def show_subjects_list():
 
 if __name__ == "__main__":
     Subjects, sub_list = load_subject()
-    main_menu_prompt, action_1, action_2, action_2_1,action_3, action_4, reminder = instructions()
+    main_menu_prompt, action_1, action_2, action_2_1,action_3,action_3_1,action_3_2,action_4,reminder = instructions()
 
     while True:
         main_choice=main_menu()
@@ -201,9 +227,8 @@ if __name__ == "__main__":
         if main_choice == 2: #2.Create Prediction Model 
             run_prediction_model()
             
-        if main_choice == 3: #3. Check Correlations 
-            print(action_3)
-            corr_plot()
+        if main_choice == 3: #3. Check Correlations
+            check_correlations()
 
         if main_choice == 4: #4. Examine Subjects List
             show_subjects_list()
