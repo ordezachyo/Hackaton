@@ -203,12 +203,13 @@ def run_prediction_model():
                 print ("Choose another predictor or type 'end' to run regression")
                 print (*var_list, sep=", ")
 
-def show_subjects_list():
+def show_subjects_list(Subjects):
     '''
     This function shows the subject list
     :return: None
     '''
     print("Subjects list:")
+    sub_list = [sub.name for sub in Subjects]
     print(sub_list)
 
 if __name__ == "__main__":
@@ -238,7 +239,7 @@ if __name__ == "__main__":
             check_correlations()
 
         if main_choice == 4: #4. Examine Subjects List
-            show_subjects_list()
+            show_subjects_list(Subjects)
             
         if main_choice>4 or main_choice<=0: # input is integer but out of range
             print("Sorry, I didn't understand that.")
