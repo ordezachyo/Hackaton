@@ -82,3 +82,7 @@ while True:
                 sub_list.pop(is_sub)
                 Subjects.pop(is_sub)
                 continue
+    if choice>4:
+        print("Sorry, I didn't understand that.")
+        #better try again... Return to the start of the loop
+        continue 
