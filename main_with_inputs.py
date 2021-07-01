@@ -115,7 +115,8 @@ if __name__ == "__main__":
                             print('No predictors given. Returning to main menu')
                             break
                         else:
-                            regression_analysis.get_regression_analysis(pre_list,predicted)
+                            print(f"Running linear regression to predict '{predicted.upper()}' - measured in sleep lab, using previous nights {pre_list}")
+                            regression_analysis.get_regression_analysis(pre_list,predicted.upper())
                             break
                     try:
                         is_pre=var_list.index(predictor.upper())
