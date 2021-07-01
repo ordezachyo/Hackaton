@@ -1,7 +1,20 @@
 from Subject import *
-import matplotlib.pyplot as plt
+
 from main_with_inputs import load_subject
 from Statistics import get_all_night_stats
+
+def plot_regression(y, y_pred, predictors, to_predict):
+    import matplotlib.pyplot as plt
+
+    plt.scatter(y, y_pred, color='red')
+    plt.plot(y, y, color='blue', linewidth=2)
+    from sklearn.metrics import r2_score
+    r = r2_score(y, y_pred)
+    plt.text(60, 90, f'R squared:{round(r, 2)}')
+    plt.title(f'Predicting {to_predict} from EEG data with:{[fn for fn in predictors]}')
+    plt.xlabel(f'{to_predict} Real values')
+    plt.ylabel(f'{to_predict} Predicted values')
+    plt.show()
 
 
 def get_regression_analysis(predictors, to_predict, param = ['SE','WASO','SME','TST','SPT']):
@@ -25,17 +38,8 @@ def get_regression_analysis(predictors, to_predict, param = ['SE','WASO','SME','
     reg = LinearRegression().fit(pred, y)
     y_pred = reg.predict(pred)
 
-    plt.scatter(y, y_pred, color='red')
-    plt.plot(y, y, color='blue', linewidth=2)
-    from sklearn.metrics import r2_score
-    r = r2_score(y, y_pred)
-    plt.text(60, 90, f'R squared:{round(r, 2)}')
-    plt.title(f'Predicting {to_predict}-lab from: {[fn for fn in predictors]}')
-    plt.show()
-
-
-    print('')
+    plot_regression(y, y_pred, predictors, to_predict)
 
 if __name__ == "__main__":
-    get_regression_analysis(['WASO'], 'SE')
+    get_regression_analysis(['WASO', 'TST'], 'SE')
 
