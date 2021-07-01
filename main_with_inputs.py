@@ -2,7 +2,7 @@ from Subject import *
 import datetime
 import sys
 import regression_analysis
-# import correlation_matrix
+import correlations_matrix 
 
 def load_subject():
     overlap_dict = {'AG1': [1, '23:48:00 07/25/2018'], 'CS7': [1, '21:29:00 10/23/2018'],
@@ -27,7 +27,7 @@ def load_subject():
 def instructions():
      # Setting the different messages for interacting with the user
     print("Welcome to SleSco™ !\n\n")  # Welcome message
-    main_menu = ("Choose the number of the action you would you like to perform:\n\
+    main_menu_prompt = ("Choose the number of the action you would you like to perform:\n\
         1. Plot Sleep Data\n\
         2. Create Prediction Model - Previous Nights -> Sleep Lab\n\
         3. Check Correlations - All Parameters\n\
@@ -41,120 +41,131 @@ def instructions():
     action_4 = ("If you would like to remove a subject, type his subject code\n\
         Reminder - you can go back to the main menu by typing 'main' or quit by typing 'quit' \n")
     reminder = ("Reminder - you can go back to the main menu by typing 'main' or quit by typing 'quit' ")
-    return main_menu, action_1, action_2, action_2_1, action_4, reminder
+    return main_menu_prompt, action_1, action_2, action_2_1,action_3, action_4, reminder
+
+def main_menu():
+    main_choice = (input (main_menu_prompt)) # User's choice for main menu
+    if main_choice.lower() == 'quit':
+        sys.exit("App Quit. Goodbye!")
+    try:
+        main_choice = int (main_choice)
+    except ValueError:
+        print("Sorry, I didn't understand that.")
+        #better try again... Return to the start of the loop
+    return main_choice
+
+def plot_sleep_data():
+    while True:
+        choice_1 = (input (action_1)) # User's choice within action 1 
+        if choice_1.lower() == 'quit':
+            sys.exit("App Quit. Goodbye!")
+        elif choice_1.lower() == 'main':
+            break
+        elif choice_1.lower() == 'all':
+            for sub in Subjects:
+                sub.plot_sleep_scores()
+                plt.show()
+                print (reminder)
+        try:
+            is_sub=sub_list.index(choice_1.upper())
+        except:
+            print ("Subject not found. Please try again.")
+            continue
+        else:
+            Subjects[is_sub].plot_sleep_scores()
+            continue
+
+def run_prediction_model():
+    regression_flag=True # tracks whether regression is completed or quit
+    var_list = ['SE','WASO','SME','TST','SPT'] # possible variables to predict
+    while regression_flag:
+        print (action_2)
+        print (*var_list, sep="/")
+        predicted= input ()
+        if predicted.lower() == 'quit':
+            sys.exit("App Quit. Goodbye!")
+        elif predicted.lower() == 'main':
+            break
+        try:
+            is_var=var_list.index(predicted.upper())
+        except:
+            print ("No such variable found. Please try again.")
+            continue
+        else:
+            is_var = var_list.index('SE')
+            var_list.pop(is_var)  # possible predictor variables - SE not included
+        print (action_2_1)
+        print (*var_list, sep=", ")
+        pre_list = [] # chosen predictors list
+        while True:
+            predictor=input()
+            if predictor.lower() == 'quit':
+                sys.exit("App Quit. Goodbye!")
+            elif predictor.lower() == 'main':
+                regression_flag = False
+                break
+            elif predictor.lower()=='end': # user is ready to run regression
+                regression_flag = False # ready to go back to main menu soon 
+                if len(pre_list)==0: # regression quit
+                    print('No predictors given. Returning to main menu')
+                    break
+                else: # good to go
+                    print(f"Running linear regression to predict '{predicted.upper()}' - measured in sleep lab, using previous nights {pre_list}")
+                    regression_analysis.get_regression_analysis(pre_list,predicted.upper()) #running regression
+                    break
+            try:
+                is_pre=var_list.index(predictor.upper())
+        # if the input is not in list, try again
+            except:
+                print ("No such variable found. Please try again.")
+                print ("Choose from available predictors or type 'end' to run regression")
+                print (*var_list, sep=", ")
+                continue
+            else:
+                pre_list.append(predictor.upper())
+                var_list.pop(is_pre)
+                print ("Choose another predictor or type 'end' to run regression")
+                print (*var_list, sep=", ")
+
+def show_subjects_list():
+    while True:
+        print ("Subjects list:")
+        print (sub_list)
+        choice_4 = (input (action_4))
+        if choice_4.lower() == 'quit':
+            sys.exit("App Quit. Goodbye!")
+        elif choice_4.lower() == 'main':
+            break
+        try:
+            is_sub=sub_list.index(choice_4.upper())
+        except:
+            print ("Subject not found. Please try again.")
+            continue
+        else:
+            sub_list.pop(is_sub)
+            Subjects.pop(is_sub)
+            continue
 
 if __name__ == "__main__":
     Subjects, sub_list = load_subject()
-    main_menu, action_1, action_2, action_2_1, action_4, reminder = instructions()
+    main_menu_prompt, action_1, action_2, action_2_1,action_3, action_4, reminder = instructions()
 
     while True:
-        main_choice = (input (main_menu)) # User's choice for main menu
-        if main_choice.lower() == 'quit':
-            sys.exit("App Quit. Goodbye!")
-        elif main_choice.lower() == 'main':
-            continue
-        try:
-            main_choice = int (main_choice)
-        except ValueError:
-            print("Sorry, I didn't understand that.")
-            #better try again... Return to the start of the loop
-            continue
+        main_choice=main_menu()
+        
         if main_choice == 1: # 1.plot sleep data
-            while True:
-                choice_1 = (input (action_1)) # User's choice within action 1 
-                if choice_1.lower() == 'quit':
-                    sys.exit("App Quit. Goodbye!")
-                elif choice_1.lower() == 'main':
-                    break
-                elif choice_1.lower() == 'all':
-                    for sub in Subjects:
-                        sub.plot_sleep_scores()
-                        plt.show()
-                        print (reminder)
-                try:
-                    is_sub=sub_list.index(choice_1)
-                except:
-                    print ("Subject not found. Please try again.")
-                    continue
-                else:
-                    Subjects[is_sub].plot_sleep_scores()
-                    continue
+            plot_sleep_data()
 
         if main_choice == 2: #2.Create Prediction Model 
-            regression_flag=True # tracks whether regression is completed or quit
-            var_list = ['SE','WASO','SME','TST','SPT'] # possible variables to predict
-
-            while regression_flag:
-                print (action_2)
-                print (*var_list, sep="/")
-                predicted= input ()
-                if predicted.lower() == 'quit':
-                    sys.exit("App Quit. Goodbye!")
-                elif predicted.lower() == 'main':
-                    break
-                try:
-                    is_var=var_list.index(predicted.upper())
-                except:
-                    print ("No such variable found. Please try again.")
-                    continue
-                else:
-                    is_var = var_list.index('SE')
-                    var_list.pop(is_var)  # possible predictor variables - SE not included
-                print (action_2_1)
-                print (*var_list, sep=", ")
-                pre_list = [] # chosen predictors list
-                while True:
-                    predictor=input()
-                    if predictor.lower() == 'quit':
-                        sys.exit("App Quit. Goodbye!")
-                    elif predictor.lower() == 'main':
-                        regression_flag = False
-                        break
-                    elif predictor.lower()=='end': # user is ready to run regression
-                        regression_flag = False # ready to go back to main menu soon 
-                        if len(pre_list)==0: # regression quit
-                            print('No predictors given. Returning to main menu')
-                            break
-                        else: # good to go
-                            print(f"Running linear regression to predict '{predicted.upper()}' - measured in sleep lab, using previous nights {pre_list}")
-                            regression_analysis.get_regression_analysis(pre_list,predicted.upper()) #running regression
-                            break
-                    try:
-                        is_pre=var_list.index(predictor.upper())
-                # if the input is not in list, try again
-                    except:
-                        print ("No such variable found. Please try again.")
-                        print ("Choose from available predictors or type 'end' to run regression")
-                        print (*var_list, sep=", ")
-                        continue
-                    else:
-                        pre_list.append(predictor.upper())
-                        var_list.pop(is_pre)
-                        print ("Choose another predictor or type 'end' to run regression")
-                        print (*var_list, sep=", ")
-
+            run_prediction_model()
+            
         if main_choice == 3: #3. Check Correlations 
             print(action_3)
-            correlation_matrix.get_corr_data()
+            correlations_matrix.corr_plot()
 
         if main_choice == 4: #4. Examine Subjects List
-            while True:
-                print ("Subjects list:")
-                print (sub_list)
-                choice_4 = (input (action_4))
-                if choice_4.lower() == 'quit':
-                    sys.exit("App Quit. Goodbye!")
-                elif choice_4.lower() == 'main':
-                    break
-                try:
-                    is_sub=sub_list.index(choice_4.upper())
-                except:
-                    print ("Subject not found. Please try again.")
-                    continue
-                else:
-                    sub_list.pop(is_sub)
-                    Subjects.pop(is_sub)
-                    continue
+            show_subjects_list()
+            
         if main_choice>4 or main_choice<=0: # input is integer but out of range
             print("Sorry, I didn't understand that.")
             #better try again... Return to the start of the loop
