@@ -7,6 +7,20 @@ sub_list = [fn.split('_')[0] for fn in os.listdir('CSVs')]
 
 Subjects = []
 for sub in sub_list:
-    overlap = overlap_dict.get(sub)
-    Subjects.append(Subject(sub,overlap))
+    overlap = (overlap_dict.get(sub))[0]
+    EEG_start_time = (overlap_dict.get(sub))[1]
+    Subjects.append(Subject(sub, overlap, EEG_start_time))
+
+param = ['SE','WASO','SME','TST','SPT']
+dfs = []
+
+st_night, nd_night, rd_night = pd.DataFrame(columns=param), pd.DataFrame(columns=param), pd.DataFrame(columns=param)
+for sub in Subjects:
+    nights = sub.extract_night()
+    for i in range(len(nights)):
+        night = nights[i]
+        stats = sleep_statistics(night['SleSco'], sub.st_watch)
+
+        print('')
+
 
