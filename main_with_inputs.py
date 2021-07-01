@@ -95,7 +95,8 @@ def plot_sleep_data():
 
 def run_prediction_model():
     '''
-
+    This function creats a prediction model for EEG data by actigraph based on chosen sleep 
+    parameters
     :return:None
     '''
     regression_flag=True # tracks whether regression is completed or quit
@@ -153,6 +154,7 @@ def show_subjects_list():
     '''
     This function shows the subject list
     :return:
+    List of subjects
     '''
     while True:
         print ("Subjects list:")
