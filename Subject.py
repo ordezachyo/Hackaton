@@ -9,7 +9,8 @@ class Subject(): # Object represent a single subject in the experiment
 
     def __init__(self, name, overlap, EEG_start_time): #Create a subject object- name: str, overlap: binary ('XX4')
 
-        if type(name)!=str or overlap not in [0, 1] or type(EEG_start_time)!=datetime.datetime:
+        sub_names = list(set([fn.split('_')[0] for fn in os.listdir('watch_data/scoring_cntrl/')]))
+        if type(name) != str or overlap not in [0, 1] or type(EEG_start_time)!=datetime.datetime or name not in sub_names:
             raise ValueError
 
         self.name = name
@@ -17,9 +18,8 @@ class Subject(): # Object represent a single subject in the experiment
         self.EEG_start_time = EEG_start_time
 
         txt = [fn for fn in os.listdir('watch_data/scoring_cntrl/') if fn.split('_')[0]==self.name and fn.find('description')==-1][0]
-        try:
-            lab_sleep_score = pd.read_csv('watch_data/scoring_cntrl/'+txt) # sleep score from the lab experiment
-        raise ValueError
+
+        lab_sleep_score = pd.read_csv('watch_data/scoring_cntrl/'+txt) # sleep score from the lab experiment
         lab_sleep_score_flat = lab_sleep_score.replace([2, 3, 4], 1)
 
         self.lab_sleep_score = pd.DataFrame.to_numpy(lab_sleep_score_flat.replace(-1, np.nan)).squeeze()
