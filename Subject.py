@@ -25,7 +25,8 @@ class Subject(): # Object represent a single subject in the experiment
 
 
     def plot_sleep_scores(self): # This function calculate statistics for both lab and watch data, then plots it nicely
-        lab_sleep_score_flat = self.lab_sleep_score.replace([2, 3, 4, -1], 1)
+        lab_sleep_score_flat = self.lab_sleep_score.replace([2, 3, 4], 1)
+        lab_sleep_score_flat = self.lab_sleep_score.replace(-1, NaN)
         lab_sleep_score_flat = pd.DataFrame.to_numpy(lab_sleep_score_flat).squeeze()
 
         #-------------------------------------------------------
