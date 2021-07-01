@@ -43,9 +43,9 @@ if __name__ == "__main__":
     reminder = ("Reminder - you can go back to the main menu by typing 'main' or quit by typing 'quit' ")
     while True:
         main_choice = (input (main_menu))
-        if main_choice == 'quit':
+        if main_choice.lower() == 'quit':
             sys.exit("App Quit. Goodbye!")
-        elif main_choice == 'main':
+        elif main_choice.lower() == 'main':
             continue
         try:
             main_choice = int (main_choice)
@@ -56,11 +56,11 @@ if __name__ == "__main__":
         if main_choice == 1:
             while True:
                 choice_1 = (input (action_1))
-                if choice_1 == 'quit':
+                if choice_1.lower() == 'quit':
                     sys.exit("App Quit. Goodbye!")
-                elif choice_1 == 'main':
+                elif choice_1.lower() == 'main':
                     break
-                elif choice_1 == 'all':
+                elif choice_1.lower() == 'all':
                     for sub in Subjects:
                         sub.plot_sleep_scores()
                         plt.show()
@@ -81,12 +81,12 @@ if __name__ == "__main__":
                 print (action_2)
                 print (*var_list, sep="/")
                 predicted= input ()
-                if predicted == 'quit':
+                if predicted.lower() == 'quit':
                     sys.exit("App Quit. Goodbye!")
-                elif predicted == 'main':
+                elif predicted.lower() == 'main':
                     break
                 try:
-                    is_var=var_list.index(predicted)
+                    is_var=var_list.index(predicted.upper())
                 except:
                     print ("No such variable found. Please try again.")
                     continue
@@ -98,12 +98,12 @@ if __name__ == "__main__":
                 pre_list = []
                 while True:
                     predictor=input()
-                    if predictor == 'quit':
+                    if predictor.lower() == 'quit':
                         sys.exit("App Quit. Goodbye!")
-                    elif predictor == 'main':
+                    elif predictor.lower() == 'main':
                         regression_flag = False
                         break
-                    elif predictor=='end':
+                    elif predictor.lower()=='end':
                         regression_flag = False
                         if len(pre_list)==0:
                             print('No predictors given. Returning to main menu')
@@ -112,7 +112,7 @@ if __name__ == "__main__":
                             regression_analysis.get_regression_analysis(pre_list,predicted)
                             break
                     try:
-                        is_pre=var_list.index(predictor)
+                        is_pre=var_list.index(predictor.upper())
                 # if the input is not in list, try again
                     except:
                         print ("No such variable found. Please try again.")
@@ -120,7 +120,7 @@ if __name__ == "__main__":
                         print (*var_list, sep=", ")
                         continue
                     else:
-                        pre_list.append(predictor)
+                        pre_list.append(predictor.upper())
                         var_list.pop(is_pre)
                         print ("Choose another predictor or type 'end' to run regression")
                         print (*var_list, sep=", ")
@@ -130,12 +130,12 @@ if __name__ == "__main__":
                 print ("Subjects list:")
                 print (sub_list)
                 choice_4 = (input (action_4))
-                if choice_4 == 'quit':
+                if choice_4.lower() == 'quit':
                     sys.exit("App Quit. Goodbye!")
-                elif choice_4 == 'main':
+                elif choice_4.lower() == 'main':
                     break
                 try:
-                    is_sub=sub_list.index(choice_4)
+                    is_sub=sub_list.index(choice_4.upper())
                 except:
                     print ("Subject not found. Please try again.")
                     continue
