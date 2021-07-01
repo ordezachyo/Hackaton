@@ -35,7 +35,6 @@ def test_action_4_csv():
 def test_Subject_class():
     date_format_string = "%H:%M:%S %m/%d/%Y"
     flag = False
-
     right_name, wrong_name, wrong_name_2 = 'ME5', 0, 'vv'
     right_overlap, wrong_overlap = 0, 2
     right_time, wrong_time = datetime.datetime.strptime('22:32:00 11/19/2018', date_format_string), '22:32:00 11/19/2018'
