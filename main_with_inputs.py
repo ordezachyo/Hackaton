@@ -36,8 +36,8 @@ def load_subject():
     nights_length = [len(sub.nights) for sub in Subjects]
     one_night_indices = [i for i, x in enumerate(nights_length) if x == 1]
 
-    while len(one_night_indices)>0:
-        Subjects.pop(one_night_indices[0])
+    while len(one_night_indices) > 0:
+        Subjects.pop(one_night_indices.pop(0))
         nights_length = [len(sub.nights) for sub in Subjects]
         one_night_indices = [i for i, x in enumerate(nights_length) if x == 1]
 
