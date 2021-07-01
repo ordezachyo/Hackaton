@@ -1,20 +1,15 @@
 from Subject import *
 def plot_regression(y, y_pred, predictors, to_predict):
     import matplotlib.pyplot as plt
-
+    fig, ax = plt.subplots()
     plt.scatter(y, y_pred, color='red')
     plt.plot(y, y, color='blue', linewidth=2)
     from sklearn.metrics import r2_score
-    r = r2_score(y, y_pred)
-
-
-    plt.text(1, 1,f'R squared:{round(r, 2)}',horizontalalignment='center',verticalalignment='center')
-    #
-    plt.title(f'Predicting {to_predict} from EEG data with:{[fn for fn in predictors]}')
+    r = round(r2_score(y, y_pred), 3)
+    fig.suptitle(f'Predicting {to_predict} from EEG data with:{[fn for fn in predictors]}, R squared:{r}')
     plt.xlabel(f'{to_predict} Real values')
     plt.ylabel(f'{to_predict} Predicted values')
-    extra = Rectangle((0, 0), 1, 1, fc="w", fill=False, edgecolor='none', linewidth=0)
-    # plt.legend([extra], (f'R squared:{round(r, 2)}'), loc=1)
+    plt.tight_layout()
     plt.show()
 
 
@@ -45,5 +40,5 @@ def get_regression_analysis(predictors, to_predict, param = ['SE','WASO','SME','
     plot_regression(y, y_pred, predictors, to_predict)
 
 if __name__ == "__main__":
-    get_regression_analysis(['WASO', 'TST'], 'SE')
+    get_regression_analysis(['TST', 'SPT', 'WASO'], 'SME')
 
