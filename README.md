@@ -6,7 +6,7 @@ _Creating the data files_
 1. **EEG Scoring data files should be in the following format:** ‘’subject’s initials’_hypnoWholeFile_revised.txt’ and be saved inside a file called ‘scoring_cntrl’ in ‘watch_data’.
 2. **Actiograph scoring data files should be produced by ‘action4’ program:** ’sleep’> ’Automatic scoring’> save channel as ‘SleSco’ then ‘file’>’export data’ and save beginning with the subject’s initials in ‘CSVs’ folder.
 
-_Our predicting parameters:_
+_Our predicting parameters:_<br />
 **Sleep Period Time (SPT):** duration from first to last period of sleep.<br />
 **Wake After Sleep Onset (WASO):** duration of wake periods within SPT.<br />
 **Total Sleep Time (TST):** SPT - WASO.<br />
