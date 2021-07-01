@@ -3,6 +3,12 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 def get_all_night_stats(Subjects, param = ['SE','WASO','SME','TST','SPT']):
+    '''
+    This function calculates sleep statistics for each subjects
+    :param Subjects: list-of Subjects
+    :param param: list-parameters to count statistics for
+    :return: Statistics dataframe of all nights with watch, eeg night and overlap night
+    '''
     from yasa import sleep_statistics
     import pandas as pd
     pre = ['1st_', '2nd_', '3rd_', 'Watch_']
@@ -46,6 +52,14 @@ def get_all_night_stats(Subjects, param = ['SE','WASO','SME','TST','SPT']):
     return night_list, lab_eeg, overlap_night
 
 def plot_regression(y, y_pred, predictors, to_predict):
+    '''
+    Plot The regression result
+    :param y: The true predicted value
+    :param y_pred: The regression prediction
+    :param predictors: list-names of predictors
+    :param to_predict: name of variable to predict
+    :return: None
+    '''
     import matplotlib.pyplot as plt
     fig, ax = plt.subplots()
     plt.scatter(y, y_pred, color='red')
@@ -60,6 +74,12 @@ def plot_regression(y, y_pred, predictors, to_predict):
 
 # Regression analysis
 def get_regression_analysis(predictors, to_predict):
+    '''
+    Calculate regression analysis
+    :param predictors: list-list of predictor names
+    :param to_predict: name of the predicted value
+    :return: None
+    '''
     from main_with_inputs import load_subject
     from Statistics import get_all_night_stats
     import pandas as pd
@@ -104,7 +124,7 @@ def get_corr_data(param=['SE', 'WASO', 'SME', 'TST', 'SPT']):
 def corr_mean_lab():
     '''
     This function plots the correlation matrix for all the data
-    :return: none
+    :return: None
     '''
     param = ['SE', 'WASO', 'SME', 'TST', 'SPT']
     Subjects, sub_list, overlap, night_list, night_lab = get_corr_data(param)
@@ -142,7 +162,7 @@ def corr_mean_lab():
 def corr_lab_night():
     '''
     This function plots the correlation matrix of the lab night's data from the watch and EEG
-    :return: none
+    :return: None
     '''
     param = ['SE', 'WASO', 'SME', 'TST', 'SPT']
     Subjects, sub_list, overlap, night_list, night_lab = get_corr_data(param)
@@ -162,7 +182,7 @@ def corr_lab_night():
 def corr_between_nights():
     '''
     This function plots the correlation matrix of the lab night's data from the watch and EEG
-    :return: none
+    :return: None
     '''
     param = ['SE', 'WASO', 'SME', 'TST', 'SPT']
     Subjects, sub_list, overlap, night_list, night_lab = get_corr_data(param)
