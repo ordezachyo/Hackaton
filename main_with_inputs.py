@@ -2,7 +2,7 @@ from Subject import *
 import datetime
 import sys
 import regression_analysis
-import correlations_matrix
+import correlations_matrix 
 
 def load_subject():
     overlap_dict = {'AG1': [1, '23:48:00 07/25/2018'], 'CS7': [1, '21:29:00 10/23/2018'],
@@ -27,7 +27,7 @@ def load_subject():
 def instructions():
      # Setting the different messages for interacting with the user
     print("Welcome to SleSco™ !\n\n")  # Welcome message
-    main_menu = ("Choose the number of the action you would you like to perform:\n\
+    main_menu_prompt = ("Choose the number of the action you would you like to perform:\n\
         1. Plot Sleep Data\n\
         2. Create Prediction Model - Previous Nights -> Sleep Lab\n\
         3. Check Correlations - All Parameters\n\
@@ -41,7 +41,18 @@ def instructions():
     action_4 = ("If you would like to remove a subject, type his subject code\n\
         Reminder - you can go back to the main menu by typing 'main' or quit by typing 'quit' \n")
     reminder = ("Reminder - you can go back to the main menu by typing 'main' or quit by typing 'quit' ")
-    return main_menu, action_1, action_2, action_2_1,action_3, action_4, reminder
+    return main_menu_prompt, action_1, action_2, action_2_1,action_3, action_4, reminder
+
+def main_menu():
+    main_choice = (input (main_menu_prompt)) # User's choice for main menu
+    if main_choice.lower() == 'quit':
+        sys.exit("App Quit. Goodbye!")
+    try:
+        main_choice = int (main_choice)
+    except ValueError:
+        print("Sorry, I didn't understand that.")
+        #better try again... Return to the start of the loop
+    return main_choice
 
 def plot_sleep_data():
     while True:
@@ -137,20 +148,11 @@ def show_subjects_list():
 
 if __name__ == "__main__":
     Subjects, sub_list = load_subject()
-    main_menu, action_1, action_2, action_2_1,action_3, action_4, reminder = instructions()
+    main_menu_prompt, action_1, action_2, action_2_1,action_3, action_4, reminder = instructions()
 
     while True:
-        main_choice = (input (main_menu)) # User's choice for main menu
-        if main_choice.lower() == 'quit':
-            sys.exit("App Quit. Goodbye!")
-        elif main_choice.lower() == 'main':
-            continue
-        try:
-            main_choice = int (main_choice)
-        except ValueError:
-            print("Sorry, I didn't understand that.")
-            #better try again... Return to the start of the loop
-            continue
+        main_choice=main_menu()
+        
         if main_choice == 1: # 1.plot sleep data
             plot_sleep_data()
 
