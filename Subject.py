@@ -13,7 +13,11 @@ class Subject(): # Object represent a single subject in the experiment
         self.overlap = overlap # does data from the watch overlaps with data from the lab
         self.EEG_start_time = EEG_start_time
         txt = [fn for fn in os.listdir('watch_data/scoring_cntrl/') if fn.split('_')[0]==self.name][0]
-        self.lab_sleep_score = pd.read_csv('watch_data/scoring_cntrl/'+txt) # sleep score from the lab experiment
+
+        lab_sleep_score = pd.read_csv('watch_data/scoring_cntrl/'+txt) # sleep score from the lab experiment
+        lab_sleep_score_flat = lab_sleep_score.replace([2, 3, 4], 1)
+        self.lab_sleep_score = pd.DataFrame.to_numpy(lab_sleep_score_flat.replace(-1, np.nan)).squeeze()
+
         self.st_lab = 1 # Hypnograph sample freq (HZ)
         self.st_watch = 1/60 # Hypnograph sample freq (HZ)
 
@@ -26,15 +30,20 @@ class Subject(): # Object represent a single subject in the experiment
 
 
     def plot_sleep_scores(self): # This function calculate statistics for both lab and watch data, then plots it nicely
-        lab_sleep_score_flat = self.lab_sleep_score.replace([2, 3, 4], 1)
-        lab_sleep_score_flat = lab_sleep_score_flat.replace(-1, np.nan)
-        lab_sleep_score_flat = pd.DataFrame.to_numpy(lab_sleep_score_flat).squeeze()
+
+        # lab_sleep_score_flat = pd.DataFrame.to_numpy(lab_sleep_score_flat).squeeze()
 
         #-------------------------------------------------------
 
         # param = ['SE','WASO','SME','TST','SPT'] # staistic parameters to keep
 
-        self.stat_lab = sleep_statistics(lab_sleep_score_flat, self.st_lab)
+        # Calculates the middle and end time of the EEG recording
+        full_time_change = datetime.timedelta(seconds = len(self.lab_sleep_score))
+        middle_time_change = datetime.timedelta(seconds = (len(self.lab_sleep_score))/2)
+        EEG_middle_time = self.EEG_start_time + middle_time_change
+        EEG_end_time = self.EEG_start_time + full_time_change
+
+        self.stat_lab = sleep_statistics(self.lab_sleep_score, self.st_lab)
         for k, v in self.stat_lab.items(): # Round all floats
             self.stat_lab[k] = round(v, 2)
         # Calculate statistics for watch nights
@@ -51,12 +60,8 @@ class Subject(): # Object represent a single subject in the experiment
         fig, ax = plt.subplots(self.num_night_watch+1,figsize=(10,10))
         extra = Rectangle((0, 0), 1, 1, fc="w", fill=False, edgecolor='none', linewidth=0)
         fig.suptitle(f'Subject {self.name}')
-        ax[0].plot(lab_sleep_score_flat)
+        ax[0].plot(self.lab_sleep_score)
         ax[0].set_title('EEG binary scoring')
-
-
-
-
 
         ax[0].legend([extra, extra, extra,extra,extra], (f"SE={self.stat_lab['SE']}", f"WASO={self.stat_lab['WASO']}",f'SME={self.stat_lab["SME"]}', f"TST={self.stat_lab['TST']}",f"SPT={self.stat_lab['SPT']}"), loc=1)
 
