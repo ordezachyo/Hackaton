@@ -16,6 +16,7 @@ class Subject(): # Object represent a single subject in the experiment
 
         lab_sleep_score = pd.read_csv('watch_data/scoring_cntrl/'+txt) # sleep score from the lab experiment
         lab_sleep_score_flat = lab_sleep_score.replace([2, 3, 4], 1)
+
         self.lab_sleep_score = pd.DataFrame.to_numpy(lab_sleep_score_flat.replace(-1, np.nan)).squeeze()
 
         self.st_lab = 1 # Hypnograph sample freq (HZ)
@@ -29,7 +30,12 @@ class Subject(): # Object represent a single subject in the experiment
 
 
 
-    def plot_sleep_scores(self): # This function calculate statistics for both lab and watch data, then plots it nicely
+    def plot_sleep_scores(self):
+        '''
+        Plots s
+        :return:
+        '''
+        # This function calculate statistics for both lab and watch data, then plots it nicely
 
         # lab_sleep_score_flat = pd.DataFrame.to_numpy(lab_sleep_score_flat).squeeze()
 
