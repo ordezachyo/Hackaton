@@ -2,6 +2,7 @@ from Subject import *
 import datetime
 import sys
 import regression_analysis
+import correlations_matrix
 
 def load_subject():
     overlap_dict = {'AG1': [1, '23:48:00 07/25/2018'], 'CS7': [1, '21:29:00 10/23/2018'],
@@ -23,26 +24,31 @@ def load_subject():
 
     return Subjects, sub_list
 
+def instructions():
+     # Setting the different messages for interacting with the user
+    print("Welcome to SleSco™ !\n\n")  # Welcome message
+    main_menu = ("Choose the number of the action you would you like to perform:\n\
+        1. Plot Sleep Data\n\
+        2. Create Prediction Model - Previous Nights -> Sleep Lab\n\
+        3. Check Correlations - All Parameters\n\
+        4. Examine Subjects List\n\n\
+        At any time, you can go back to the main menu by typing 'main' or quit typing 'quit' \n")
+    action_1 = ("To choose a specific subject, type his subject code\n\
+        Alternativly, type 'all' to plot all subjects\n")
+    action_2 = ("Choose the predicted variable:")
+    action_2_1 = ("Choose predictors, seperate by pressing 'Enter'. Type 'end' to finish")
+    action_3 = ("Creating correlation matrix")
+    action_4 = ("If you would like to remove a subject, type his subject code\n\
+        Reminder - you can go back to the main menu by typing 'main' or quit by typing 'quit' \n")
+    reminder = ("Reminder - you can go back to the main menu by typing 'main' or quit by typing 'quit' ")
+    return main_menu, action_1, action_2, action_2_1,action_3, action_4, reminder
+
 if __name__ == "__main__":
     Subjects, sub_list = load_subject()
-    print(f"Welcome to SleSco™ !\n\n") # Welcome message
-    # Setting the different messages for interacting with the user
-    main_menu = (f"Choose the number of the action you would you like to perform:\n\
-    1. Plot Sleep Data\n\
-    2. Create Prediction Model - Previous Nights -> Sleep Lab\n\
-    3. Check Motionlogger to EEG Correlation\n\
-    4. Examine Subjects List\n\n\
-    At any time, you can go back to the main menu by typing 'main' or quit typing 'quit' \n")
-    action_1=("To choose a specific subject, type his subject code\n\
-    Alternativly, type 'all' to plot all subjects\n")
-    action_2=("Choose the predicted variable:")
-    action_2_1 = (f"Choose predictors, seperate by pressing 'Enter'. Type 'end' to finish")
+    main_menu, action_1, action_2, action_2_1,action_3, action_4, reminder = instructions()
 
-    action_4=("If you would like to remove a subject, type his subject code\n\
-    Reminder - you can go back to the main menu by typing 'main' or quit by typing 'quit' \n")
-    reminder = ("Reminder - you can go back to the main menu by typing 'main' or quit by typing 'quit' ")
     while True:
-        main_choice = (input (main_menu))
+        main_choice = (input (main_menu)) # User's choice for main menu
         if main_choice.lower() == 'quit':
             sys.exit("App Quit. Goodbye!")
         elif main_choice.lower() == 'main':
@@ -53,9 +59,9 @@ if __name__ == "__main__":
             print("Sorry, I didn't understand that.")
             #better try again... Return to the start of the loop
             continue
-        if main_choice == 1:
+        if main_choice == 1: # 1.plot sleep data
             while True:
-                choice_1 = (input (action_1))
+                choice_1 = (input (action_1)) # User's choice within action 1 
                 if choice_1.lower() == 'quit':
                     sys.exit("App Quit. Goodbye!")
                 elif choice_1.lower() == 'main':
@@ -72,11 +78,12 @@ if __name__ == "__main__":
                     continue
                 else:
                     Subjects[is_sub].plot_sleep_scores()
-                    plt.show()
                     continue
-        if main_choice == 2:
-            regression_flag=True
-            var_list = ['SE','WASO','SME','TST','SPT']
+
+        if main_choice == 2: #2.Create Prediction Model 
+            regression_flag=True # tracks whether regression is completed or quit
+            var_list = ['SE','WASO','SME','TST','SPT'] # possible variables to predict
+
             while regression_flag:
                 print (action_2)
                 print (*var_list, sep="/")
@@ -91,11 +98,11 @@ if __name__ == "__main__":
                     print ("No such variable found. Please try again.")
                     continue
                 else:
-                    is_var=var_list.index('SE')
-                    var_list.pop(is_var)
+                    is_var = var_list.index('SE')
+                    var_list.pop(is_var)  # possible predictor variables - SE not included
                 print (action_2_1)
                 print (*var_list, sep=", ")
-                pre_list = []
+                pre_list = [] # chosen predictors list
                 while True:
                     predictor=input()
                     if predictor.lower() == 'quit':
@@ -103,13 +110,14 @@ if __name__ == "__main__":
                     elif predictor.lower() == 'main':
                         regression_flag = False
                         break
-                    elif predictor.lower()=='end':
-                        regression_flag = False
-                        if len(pre_list)==0:
+                    elif predictor.lower()=='end': # user is ready to run regression
+                        regression_flag = False # ready to go back to main menu soon 
+                        if len(pre_list)==0: # regression quit
                             print('No predictors given. Returning to main menu')
                             break
-                        else:
-                            regression_analysis.get_regression_analysis(pre_list,predicted)
+                        else: # good to go
+                            print(f"Running linear regression to predict '{predicted.upper()}' - measured in sleep lab, using previous nights {pre_list}")
+                            regression_analysis.get_regression_analysis(pre_list,predicted.upper()) #running regression
                             break
                     try:
                         is_pre=var_list.index(predictor.upper())
@@ -125,7 +133,11 @@ if __name__ == "__main__":
                         print ("Choose another predictor or type 'end' to run regression")
                         print (*var_list, sep=", ")
 
-        if main_choice == 4:
+        if main_choice == 3: #3. Check Correlations 
+            print(action_3)
+            correlations_matrix.corr_plot()
+
+        if main_choice == 4: #4. Examine Subjects List
             while True:
                 print ("Subjects list:")
                 print (sub_list)
@@ -143,7 +155,7 @@ if __name__ == "__main__":
                     sub_list.pop(is_sub)
                     Subjects.pop(is_sub)
                     continue
-        if main_choice>4:
+        if main_choice>4 or main_choice<=0: # input is integer but out of range
             print("Sorry, I didn't understand that.")
             #better try again... Return to the start of the loop
 
