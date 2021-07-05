@@ -39,6 +39,8 @@ def load_subject():
         nights_length = [len(sub.nights) for sub in Subjects]
         one_night_indices = [i for i, x in enumerate(nights_length) if x == 1]
 
+    sub_list = [sub.name for sub in Subjects]
+
     return Subjects, sub_list
 
 
@@ -105,14 +107,10 @@ def plot_sleep_data():
                 plt.show()
             print(reminder)
         else:
-            try:
-                is_sub = sub_list.index(choice_1.upper())
-            except:
+            if choice_1.upper() not in sub_list:
                 print("Subject not found. Please try again.")
-                continue
             else:
-                Subjects[is_sub].plot_sleep_scores()
-                continue
+                Subjects[sub_list.index(choice_1.upper())].plot_sleep_scores()
 
 
 def check_correlations():

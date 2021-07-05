@@ -1,4 +1,4 @@
-from main_with_inputs import load_subject
+from main import load_subject
 import pandas as pd
 import os
 import datetime
