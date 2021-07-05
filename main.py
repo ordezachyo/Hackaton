@@ -107,10 +107,14 @@ def plot_sleep_data():
                 plt.show()
             print(reminder)
         else:
-            if choice_1.upper() not in sub_list:
+            try:
+                is_sub = sub_list.index(choice_1.upper())
+            except:
                 print("Subject not found. Please try again.")
+                continue
             else:
-                Subjects[sub_list.index(choice_1.upper())].plot_sleep_scores()
+                Subjects[is_sub].plot_sleep_scores()
+                continue
 
 
 def check_correlations():
